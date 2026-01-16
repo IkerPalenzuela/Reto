@@ -1,0 +1,66 @@
+version: '3.8'
+
+services:
+  # Servidor Web + PHP
+  web:
+    build:
+      context: ./docker/php
+    container_name: reto-web
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    volumes:
+      - ./src:/var/www/html
+    depends_on:
+      - db
+    networks:
+      - reto_network
+
+  # Base de Datos
+  db:
+    image: mysql:8.0
+    container_name: reto-db
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: reto-mysql
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: user
+      MYSQL_PASSWORD: user_pass
+    volumes:
+      - dbdata:/var/lib/mysql # Persistencia (SSII)
+    networks:
+      - reto_network
+
+  # Node / Vite (Para el Frontend y jQuery)
+  node:
+    image: node:20
+    container_name: reto-node
+    working_dir: /var/www/html
+    volumes:
+      - ./src:/var/www/html
+    ports:
+      - "5173:5173"
+    command: sh -c "npm install && npm run dev -- --host"
+    networks:
+      - reto_network
+
+  # PhpMyAdmin (Para ver la BD visualmente)
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: reto-phpmyadmin
+    ports:
+      - "8080:80"
+    environment:
+      PMA_HOST: db
+      PMA_PORT: 3306
+    depends_on:
+      - db
+    networks:
+      - reto_network
+
+networks:
+  reto_network:
+    driver: bridge
+
+volumes:
+  dbdata:
