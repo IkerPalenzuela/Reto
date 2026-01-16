@@ -45,4 +45,21 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    // Un usuario tiene un prefil (1:1)
+    public function profile() {
+        return $this->hasOne(Profile::class);
+    }
+
+    // Relacion 1:N  User --> Reviews
+    public function reviews(){
+        return $this->hasMany(Review::class);
+    }
+
+    // Relacion N:M Favoritos (User <--> Game)
+    public function favorites() {
+        return $this->belongsToMany(Game::class, 'favorites')
+                    ->withPivot('position')
+                    ->withTimestamps();
+    }
 }

@@ -10,4 +10,8 @@ class Platform extends Model
     protected $fillable = [
         'name',
     ];
+
+    public function games() {
+        return $this->belongsToMany(Game::class, 'game_platform');
+    }
 }

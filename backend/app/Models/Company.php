@@ -12,4 +12,9 @@ class Company extends Model
         'nif',
         'location',
     ];
+
+    // Una compañia tiene muchos juegos (1:N)
+    public function games() {
+        return $this->hasMany(Game::class);
+    }
 }
