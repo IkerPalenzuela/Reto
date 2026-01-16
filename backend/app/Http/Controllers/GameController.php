@@ -4,15 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Models\Game;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 
 class GameController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): JsonResponse
     {
-        //
+        return response()->json(Game::with('company')->get())
     }
 
     /**
@@ -34,9 +35,11 @@ class GameController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Game $game)
+    public function show(Game $game): JsonResponse
     {
-        //
+        return response()->json(
+            $game->load(['company', 'platforms', 'reviews.user'])
+        )
     }
 
     /**

@@ -31,5 +31,10 @@ class Game extends Model
         return $this->hasMany(Review::class);
     }
 
-    
+    // Relacion inversa de Favoritos
+    public function favoritedByUsers() {
+        return $this->belongsToMany(User::class, 'favorites')
+                    ->withPivot('position')
+                    ->withTimestamps();
+    }
 }

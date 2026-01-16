@@ -4,15 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Models\Platform;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 
 class PlatformController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): JsonResponse
     {
-        //
+        return response()->json(Platform::all());
     }
 
     /**
@@ -34,9 +35,9 @@ class PlatformController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Platform $platform)
+    public function show(Platform $platform): JsonResponse
     {
-        //
+        return response()->json($platform->load('games.company'));
     }
 
     /**
