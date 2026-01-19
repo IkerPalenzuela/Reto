@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('platforms', function (Blueprint $table) {
             $table->id();
-            $table->string('name')  // PC, PS5, Xbox ...
+            $table->string('name');  // PC, PS5, Xbox ...
             $table->timestamps();
         });
     }

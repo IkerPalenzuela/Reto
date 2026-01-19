@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('company_id')->constrained()->onDelete('cascade');
             $table->string('name');
             $table->text('description');
-            $table->string('img')  // URL de la imagen
+            $table->string('img');  // URL de la imagen
             $table->timestamps();
         });
     }

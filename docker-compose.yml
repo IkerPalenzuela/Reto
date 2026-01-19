@@ -10,7 +10,8 @@ services:
     ports:
       - "80:80"
     volumes:
-      - ./src:/var/www/html
+      # CAMBIO IMPORTANTE: Apuntamos a backend, no a src
+      - ./backend:/var/www/html
     depends_on:
       - db
     networks:
@@ -27,24 +28,26 @@ services:
       MYSQL_USER: user
       MYSQL_PASSWORD: user_pass
     volumes:
-      - dbdata:/var/lib/mysql # Persistencia (SSII)
+      - dbdata:/var/lib/mysql
     networks:
       - reto_network
 
-  # Node / Vite (Para el Frontend y jQuery)
+  # Node / Vite
   node:
     image: node:20
     container_name: reto-node
+    # CAMBIO IMPORTANTE: Node busca el package.json aquí
     working_dir: /var/www/html
     volumes:
-      - ./src:/var/www/html
+      # CAMBIO IMPORTANTE: Apuntamos a backend
+      - ./backend:/var/www/html
     ports:
       - "5173:5173"
     command: sh -c "npm install && npm run dev -- --host"
     networks:
       - reto_network
 
-  # PhpMyAdmin (Para ver la BD visualmente)
+  # PhpMyAdmin
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     container_name: reto-phpmyadmin
