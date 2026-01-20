@@ -115,7 +115,7 @@ main {
     background-color: var(--color-blanco);
     padding: 20px;
     border-radius: 8px;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
     border: 1px solid var(--color-borde);
     text-align: justify;
 }
@@ -222,4 +222,25 @@ main {
     .tarjeta-review {
         width: 100%;
     }
+}
+
+/* NUEVO: ESTILOS PARA LA IMAGEN DE LA RESEÑA */
+.header-review {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 10px;
+}
+
+.img-juego {
+    width: 60px;
+    height: 60px;
+    object-fit: cover; 
+    border-radius: 5px; 
+}
+
+.titulo-resena {
+    color: #d35400;
+    font-size: 15px;
+    margin: 10px 0;
 }
