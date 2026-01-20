@@ -1,4 +1,15 @@
-/* Reseteo básico para quitar márgenes por defecto */
+/* --- VARIABLES GLOBALES --- */
+:root {
+    --color-fondo: #f4f4f4;
+    --color-texto: #333333;
+    --color-blanco: #ffffff;
+    --color-primario: #0f3d2e;
+    --color-secundario: #3b82f6;
+    --color-accion: #10b981;
+    --color-borde: #dddddd;
+}
+
+/* --- ESTILOS GENERALES --- */
 * {
     margin: 0;
     padding: 0;
@@ -7,148 +18,208 @@
 
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f4; /* Gris clarito de fondo */
-    color: #333;
-    padding-bottom: 50px;
+    background-color: var(--color-fondo);
+    color: var(--color-texto);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex-grow: 1;
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
 }
 
 /* --- CABECERA --- */
 .barra-superior {
-    background-color: #0f3d2e; /* Tu verde oscuro */
-    color: white;
-    padding: 20px;
+    background-color: var(--color-primario);
+    color: var(--color-blanco);
+    padding: 15px 20px;
     display: flex;
-    justify-content: space-between; /* Uno a cada lado */
+    justify-content: space-between; 
     align-items: center;
+    position: relative;
 }
 
 .icono-menu {
     font-size: 24px;
     cursor: pointer;
+    margin-right: 15px; 
 }
 
 .barra-superior h1 {
-    font-size: 24px;
+    font-size: 22px;
+    flex-grow: 1;
+    margin: 0;
+    text-align: center;
+}
+
+.botones-auth {
+    display: flex;
+    gap: 10px;
 }
 
 .botones-auth a {
     text-decoration: none;
-    color: white;
-    padding: 10px 15px;
+    color: var(--color-blanco);
+    padding: 8px 12px;
     border-radius: 5px;
-    margin-left: 10px;
     font-weight: bold;
+    font-size: 14px;
+    transition: opacity 0.3s;
 }
 
-/* Colores botones */
-.btn-login {
-    background-color: #3b82f6; /* Azul */
+.botones-auth a:hover { 
+    opacity: 0.8; 
 }
 
-.btn-register {
-    background-color: #10b981; /* Verde */
+.btn-login { 
+    background-color: var(--color-secundario); 
 }
 
-/* --- CONTENIDO PRINCIPAL --- */
-main {
-    max-width: 1000px;
-    margin: 0 auto; /* Centrar en pantalla */
-    padding: 20px;
+.btn-register { 
+    background-color: var(--color-accion); 
 }
 
+/* --- MENÚ DESPLEGABLE --- */
+#menu-principal {
+    background-color: #0a291f;
+    color: white;
+    width: 100%;
+    display: none;
+}
+
+#menu-principal.mostrar {
+    display: block;
+}
+
+#menu-principal ul {
+    list-style: none;
+}
+
+#menu-principal li {
+    padding: 15px 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    cursor: pointer;
+}
+
+#menu-principal li:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+
+/* --- SECCIONES MAIN, CARRUSEL Y TARJETAS --- */
 .intro-texto {
-    background-color: white;
+    background-color: var(--color-blanco);
     padding: 20px;
     border-radius: 8px;
     margin-bottom: 20px;
-    border: 1px solid #ddd;
+    border: 1px solid var(--color-borde);
     text-align: justify;
 }
 
-/* --- CARRUSEL (Estilo sencillo) --- */
 .carrusel-container {
-    position: relative; /* Para poner los botones encima */
+    position: relative;
     width: 100%;
     margin-bottom: 30px;
     border-radius: 8px;
-    overflow: hidden; /* Que no se salga la imagen */
+    overflow: hidden;
+}
+.imagen-carrusel { 
+    width: 100%; display: none; 
 }
 
-.imagen-carrusel {
-    width: 100%;
-    display: none; /* Ocultamos todas por defecto */
+.activa { 
+    display: block; 
 }
 
-/* Clase para mostrar la imagen que toca */
-.activa {
-    display: block;
-}
-
-/* Botones del carrusel */
 .btn-prev, .btn-next {
     position: absolute;
-    top: 45%; /* Más o menos a la mitad */
-    background-color: rgba(0, 0, 0, 0.5); /* Negro transparente */
-    color: white;
+    top: 45%;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: var(--color-blanco);
     border: none;
     padding: 15px;
     cursor: pointer;
-    font-size: 18px;
+}
+.btn-prev { 
+    left: 0; 
 }
 
-.btn-prev { left: 0; }
-.btn-next { right: 0; }
-
-/* --- LISTA DE RESEÑAS (Flexbox en vez de Grid) --- */
-.seccion-reseñas {
-    margin-top: 30px;
+.btn-next {
+    right: 0; 
 }
 
-.lista-reseñas {
-    display: flex;
-    flex-wrap: wrap; /* Si no caben, bajan a la siguiente linea */
-    gap: 20px;
+.seccion-reseñas { 
+    margin-top: 30px; 
+}
+.lista-reseñas { 
+    display: flex; 
+    flex-wrap: wrap; 
+    gap: 20px; 
 }
 
 .tarjeta-review {
-    background-color: white;
-    width: 30%; /* Que ocupen un tercio aproximadamente */
+    background-color: var(--color-blanco);
+    width: 30%;
     padding: 15px;
     border: 1px solid #ccc;
     border-radius: 8px;
-    box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
-    flex-grow: 1; /* Que se estiren un poco si sobra sitio */
+    flex-grow: 1;
+    transition: transform 0.2s;
 }
 
-.titulo-juego {
-    color: #0f3d2e;
-    margin-bottom: 5px;
+.tarjeta-review:hover { 
+    transform: translateY(-5px); 
 }
 
-.puntuacion {
-    color: orange;
-    font-size: 20px;
+.titulo-juego { 
+    color: var(--color-primario); 
+    margin-bottom: 5px; 
 }
 
-.autor {
-    font-size: 12px;
-    color: #666;
-    display: block;
-    margin-bottom: 10px;
+.puntuacion { 
+    color: orange; 
+    font-size: 20px; 
+    margin-bottom: 10px; 
 }
 
-/* --- FOOTER --- */
+.autor { 
+    font-size: 12px; 
+    color: #666; 
+    display: block; 
+    margin-bottom: 10px; 
+}
+
 .barra-inferior {
-    background-color: #0f3d2e;
-    color: white;
+    background-color: var(--color-primario);
+    color: var(--color-blanco);
     text-align: center;
     padding: 15px;
     margin-top: 20px;
 }
 
-/* Ajuste para móviles */
+/* --- RESPONSIVE (Móvil) --- */
 @media (max-width: 600px) {
+    .barra-superior {
+        padding: 10px;
+    }
+
+    .barra-superior h1 {
+        font-size: 18px;
+        margin-left: 10px;
+        text-align: left;
+    }
+
+    .botones-auth a {
+        padding: 6px 10px;
+        font-size: 12px;
+        margin-left: 5px;
+    }
+
     .tarjeta-review {
-        width: 100%; /* En móvil que ocupen todo el ancho */
+        width: 100%;
     }
 }

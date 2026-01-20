@@ -10,7 +10,7 @@
 <body>
 
     <header class="barra-superior">
-        <div class="icono-menu">☰</div>
+        <div class="icono-menu" onclick="menu()">☰</div>
         
         <h1>Inicio</h1>
         
@@ -19,6 +19,15 @@
             <a href="/register" class="btn-register">Registrar</a>
         </div>
     </header>
+
+    <nav id="menu-principal" class="menu-oculto">
+        <ul>
+            <li onclick="irA('inicio')">Inicio</li>
+            <li onclick="irA('videojuegos')">Videojuegos</li>
+            <li onclick="irA('reseñas')">Reseñas</li>
+            <li onclick="irA('favoritos')">Favoritos</li>
+        </ul>
+    </nav>
 
     <main>
         <section class="intro-texto">
@@ -39,8 +48,8 @@
             <img src="img/banner7.jpg" class="imagen-carrusel" alt="Spider-Man">
         </div>
         
-        <button class="btn-prev" onclick="moverCarrusel(-1)">&#10094;</button>
-        <button class="btn-next" onclick="moverCarrusel(1)">&#10095;</button>
+        <button class="btn-prev" onclick="moverCarrusel(-1)"><</button>
+        <button class="btn-next" onclick="moverCarrusel(1)">></button>
     </section>
 
         <section class="seccion-reseñas">
