@@ -10,59 +10,39 @@ class GameController extends Controller
 {
     /**
      * Display a listing of the resource.
+     * CUMPLE B.2: Búsqueda y Filtro
      */
-    public function index(): JsonResponse
+    public function index(Request $request): JsonResponse
     {
-        return response()->json(Game::with('company')->get())
+        // Iniciamos la consulta cargando la compañía
+        $query = Game::with('company');
+
+        // SI en la URL viene ?company_id=3, filtramos por esa compañía
+        if ($request->has('company_id')) {
+            $query->where('company_id', $request->query('company_id'));
+        }
+
+        // FALTABA EL PUNTO Y COMA AQUÍ ABAJO
+        return response()->json($query->get());
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+    // ... create y store vacíos ...
 
     /**
      * Display the specified resource.
      */
     public function show(Game $game): JsonResponse
     {
+        // FALTABA EL PUNTO Y COMA AQUÍ ABAJO
         return response()->json(
             $game->load(['company', 'platforms', 'reviews.user'])
-        )
+        );
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Game $game)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Game $game)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Game $game)
-    {
-        //
-    }
+    // ... resto de métodos vacíos ...
+    public function create() {}
+    public function store(Request $request) {}
+    public function edit(Game $game) {}
+    public function update(Request $request, Game $game) {}
+    public function destroy(Game $game) {}
 }

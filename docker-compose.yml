@@ -1,69 +1,72 @@
 version: '3.8'
 
 services:
-  # Servidor Web + PHP
-  web:
-    build:
-      context: ./docker/php
-    container_name: reto-web
-    restart: unless-stopped
+  # --- 1. PROXY INVERSO (NGINX) ---
+  # Único punto de entrada. Recibe al usuario y decide a dónde mandarlo.
+  proxy:
+    image: nginx:alpine
+    container_name: reto-proxy
+    restart: always
     ports:
       - "80:80"
     volumes:
-      # CAMBIO IMPORTANTE: Apuntamos a backend, no a src
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - frontend
+      - backend
+    networks:
+      - red-reto
+
+  # --- 2. FRONTEND ---
+  frontend:
+    build: ./frontend
+    container_name: reto-frontend
+    restart: always
+    # No exponemos puertos hacia fuera, solo a la red interna
+    networks:
+      - red-reto
+
+  # --- 3. BACKEND (Tu Laravel con Apache) ---
+  backend:
+    build: 
+      context: ./backend
+      dockerfile: Dockerfile  # Busca el archivo en backend/Dockerfile
+    container_name: reto-backend
+    restart: always
+    volumes:
       - ./backend:/var/www/html
+    networks:
+      - red-reto
     depends_on:
       - db
-    networks:
-      - reto_network
 
-  # Base de Datos
+  # --- 4. BASE DE DATOS ---
   db:
     image: mysql:8.0
     container_name: reto-db
-    restart: unless-stopped
+    restart: always
     environment:
-      MYSQL_DATABASE: reto-mysql
+      MYSQL_DATABASE: reto_db
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_USER: user
-      MYSQL_PASSWORD: user_pass
     volumes:
-      - dbdata:/var/lib/mysql
+      - db_data:/var/lib/mysql
     networks:
-      - reto_network
+      - red-reto
 
-  # Node / Vite
-  node:
-    image: node:20
-    container_name: reto-node
-    # CAMBIO IMPORTANTE: Node busca el package.json aquí
-    working_dir: /var/www/html
-    volumes:
-      # CAMBIO IMPORTANTE: Apuntamos a backend
-      - ./backend:/var/www/html
-    ports:
-      - "5173:5173"
-    command: sh -c "npm install && npm run dev -- --host"
-    networks:
-      - reto_network
-
-  # PhpMyAdmin
+  # --- 5. PHPMYADMIN ---
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
-    container_name: reto-phpmyadmin
+    container_name: reto-pma
     ports:
       - "8080:80"
     environment:
       PMA_HOST: db
-      PMA_PORT: 3306
-    depends_on:
-      - db
     networks:
-      - reto_network
+      - red-reto
 
 networks:
-  reto_network:
+  red-reto:
     driver: bridge
 
 volumes:
-  dbdata:
+  db_data:

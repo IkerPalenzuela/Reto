@@ -2,11 +2,59 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Mi Frontend DAW</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GameReviews - Inicio</title>
+    
+    <link rel="stylesheet" href="css/estilos.css">
 </head>
 <body>
-    <h1>¡Frontend funcionando!</h1>
-    <p>Esta página es HTML puro y duro.</p>
-    <button id="btn-login">Probar Botón</button>
+
+    <header class="barra-superior">
+        <div class="icono-menu">☰</div>
+        
+        <h1>Inicio</h1>
+        
+        <div class="botones-auth">
+            <a href="/login" class="btn-login">Iniciar Sesión</a>
+            <a href="/register" class="btn-register">Registrar</a>
+        </div>
+    </header>
+
+    <main>
+        <section class="intro-texto">
+            <p>
+                Somos una plataforma digital dedicada al almacenamiento e información de videojuegos. 
+                Aquí podrás consultar fichas técnicas detalladas y leer o publicar reseñas para compartir tu opinión con la comunidad. 
+                Además, te permitimos crear tu lista de juegos favoritos y reordenarla a tu gusto con nuestro sistema interactivo.
+            </p>
+        </section>
+    <section class="carrusel-container">
+        <div class="carrusel-slide">
+            <img src="img/banner1.jpg" class="imagen-carrusel activa" alt="Elden Ring">
+            <img src="img/banner2.jpg" class="imagen-carrusel" alt="Cyberpunk 2077">
+            <img src="img/banner3.jpg" class="imagen-carrusel" alt="Red Dead Redemption 2">
+            <img src="img/banner4.jpg" class="imagen-carrusel" alt="Black Myth: Wukong">
+            <img src="img/banner5.jpg" class="imagen-carrusel" alt="God of War">
+            <img src="img/banner6.jpg" class="imagen-carrusel" alt="Baldurs Gate 3">
+            <img src="img/banner7.jpg" class="imagen-carrusel" alt="Spider-Man">
+        </div>
+        
+        <button class="btn-prev" onclick="moverCarrusel(-1)">&#10094;</button>
+        <button class="btn-next" onclick="moverCarrusel(1)">&#10095;</button>
+    </section>
+
+        <section class="seccion-reseñas">
+            <div id="contenedor-reseñas" class="lista-reseñas">
+                <p>Cargando reseñas de la comunidad...</p>
+            </div>
+        </section>
+    </main>
+
+    <footer class="barra-inferior">
+        <p>&copy; 2024 GameReviews</p>
+    </footer>
+
+    <script src="js/app.js"></script>
+
 </body>
 </html>

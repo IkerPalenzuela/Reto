@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Company;
 use Illuminate\Http\Request;
-use Illuminate\Https\JsonResponse;
+use Illuminate\Http\JsonResponse;
 
 class CompanyController extends Controller
 {

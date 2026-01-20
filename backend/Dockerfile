@@ -12,6 +12,8 @@ RUN apt-get update && apt-get install -y \
     libjpeg-dev \
     libonig-dev \
     libxml2-dev \
+    && curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
+    && apt-get install -y nodejs \
     # Limpieza de caché
     && apt-get -y clean \
     && rm -rf /var/lib/apt/lists/*

@@ -1,0 +1,154 @@
+/* Reseteo básico para quitar márgenes por defecto */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4; /* Gris clarito de fondo */
+    color: #333;
+    padding-bottom: 50px;
+}
+
+/* --- CABECERA --- */
+.barra-superior {
+    background-color: #0f3d2e; /* Tu verde oscuro */
+    color: white;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between; /* Uno a cada lado */
+    align-items: center;
+}
+
+.icono-menu {
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.barra-superior h1 {
+    font-size: 24px;
+}
+
+.botones-auth a {
+    text-decoration: none;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    margin-left: 10px;
+    font-weight: bold;
+}
+
+/* Colores botones */
+.btn-login {
+    background-color: #3b82f6; /* Azul */
+}
+
+.btn-register {
+    background-color: #10b981; /* Verde */
+}
+
+/* --- CONTENIDO PRINCIPAL --- */
+main {
+    max-width: 1000px;
+    margin: 0 auto; /* Centrar en pantalla */
+    padding: 20px;
+}
+
+.intro-texto {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    text-align: justify;
+}
+
+/* --- CARRUSEL (Estilo sencillo) --- */
+.carrusel-container {
+    position: relative; /* Para poner los botones encima */
+    width: 100%;
+    margin-bottom: 30px;
+    border-radius: 8px;
+    overflow: hidden; /* Que no se salga la imagen */
+}
+
+.imagen-carrusel {
+    width: 100%;
+    display: none; /* Ocultamos todas por defecto */
+}
+
+/* Clase para mostrar la imagen que toca */
+.activa {
+    display: block;
+}
+
+/* Botones del carrusel */
+.btn-prev, .btn-next {
+    position: absolute;
+    top: 45%; /* Más o menos a la mitad */
+    background-color: rgba(0, 0, 0, 0.5); /* Negro transparente */
+    color: white;
+    border: none;
+    padding: 15px;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.btn-prev { left: 0; }
+.btn-next { right: 0; }
+
+/* --- LISTA DE RESEÑAS (Flexbox en vez de Grid) --- */
+.seccion-reseñas {
+    margin-top: 30px;
+}
+
+.lista-reseñas {
+    display: flex;
+    flex-wrap: wrap; /* Si no caben, bajan a la siguiente linea */
+    gap: 20px;
+}
+
+.tarjeta-review {
+    background-color: white;
+    width: 30%; /* Que ocupen un tercio aproximadamente */
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+    flex-grow: 1; /* Que se estiren un poco si sobra sitio */
+}
+
+.titulo-juego {
+    color: #0f3d2e;
+    margin-bottom: 5px;
+}
+
+.puntuacion {
+    color: orange;
+    font-size: 20px;
+}
+
+.autor {
+    font-size: 12px;
+    color: #666;
+    display: block;
+    margin-bottom: 10px;
+}
+
+/* --- FOOTER --- */
+.barra-inferior {
+    background-color: #0f3d2e;
+    color: white;
+    text-align: center;
+    padding: 15px;
+    margin-top: 20px;
+}
+
+/* Ajuste para móviles */
+@media (max-width: 600px) {
+    .tarjeta-review {
+        width: 100%; /* En móvil que ocupen todo el ancho */
+    }
+}
