@@ -3,52 +3,63 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GameReviews - Dashboard</title>
-    
-    <link rel="stylesheet" href="/css/estilos.css">
+    <title>GameReviews - Inicio</title>
+    <link rel="stylesheet" href="{{ asset('css/estilos.css') }}">
 </head>
 <body>
-
     <header class="barra-superior">
-        <div class="icono-menu">☰</div>
+        <div class="icono-menu" id="btn-menu" onclick="menu()" style="display: {{ Auth::check() ? 'block' : 'none' }};">☰</div>
         
-        <h1><a href="{{ route('dashboard') }}" style="text-decoration:none; color:inherit;">Dashboard</a></h1>
-        
-        <div class="botones-auth">
-            <span style="color: white; margin-right: 15px;">
-                Hola, {{ Auth::user()->name }}
-            </span>
+        <h1>Inicio</h1>
 
-            <form method="POST" action="{{ route('logout') }}" style="display:inline;">
-                @csrf
-                <button type="submit" class="btn-register" style="background-color: #dc3545; border:none; cursor:pointer;">
-                    Cerrar Sesión
-                </button>
-            </form>
-        </div>
+        @guest
+            <div class="botones-auth" id="caja-botones-auth" style="display: flex;">
+                <a href="/login" class="btn-login">Iniciar Sesión</a>
+                <a href="/register" class="btn-register">Registrar</a>
+            </div>
+        @endguest
+
+        @auth
+            <div class="usuario-info" id="caja-usuario-info" style="display: flex; align-items: center; gap: 10px;">
+                <span id="nombre-usuario" style="color: white; font-weight: bold;">
+                    Hola, {{ Auth::user()->name }}
+                </span>
+                
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <button type="submit" id="btn-logout" class="btn-login" style="background-color: #ef4444; border:none; cursor:pointer;">
+                        Salir
+                    </button>
+                </form>
+            </div>
+        @endauth
     </header>
+
+    <nav id="menu-principal" class="menu-oculto">
+        <ul>
+            <li><a href="{{ url('/dashboard') }}">Inicio</a></li>
+            <li><a href="{{ url('/games') }}">Videojuegos</a></li>
+            <li><a href="{{ url('/profile') }}">Editar Perfil</a></li>
+            <li><a href="{{ url('/reviews') }}">Reseñas</a></li>
+        </ul>
+    </nav>
 
     <main>
         <section class="intro-texto">
-            <p>
-                <strong>¡Bienvenido a tu zona privada!</strong><br>
-                Aquí podrás consultar fichas técnicas detalladas y leer o publicar reseñas.
-                Como usuario registrado, ahora tienes acceso completo a la comunidad.
-            </p>
-            <div style="margin-top: 15px; text-align: center;">
-                <a href="{{ route('profile.edit') }}" class="btn-login" style="text-decoration:none;">Editar Mi Perfil</a>
-            </div>
+            <p>Somos una plataforma digital dedicada al almacenamiento e información de videojuegos...</p>
         </section>
 
         <section class="carrusel-container">
             <div class="carrusel-slide">
-                <img src="https://placehold.co/600x300/png?text=Imagen+Carrusel" alt="Imagen destacada">
+                <img src="img/banner1.jpg" class="imagen-carrusel activa" alt="Elden Ring">
             </div>
+            <button class="btn-prev" onclick="moverCarrusel(-1)"><</button>
+            <button class="btn-next" onclick="moverCarrusel(1)">></button>
         </section>
 
         <section class="seccion-reseñas">
             <div id="contenedor-reseñas" class="lista-reseñas">
-                <p>Cargando reseñas de la comunidad...</p>
+                <div class="spinner" role="search" aria-label="Cargando reseñas"></div>
             </div>
         </section>
     </main>
@@ -57,7 +68,6 @@
         <p>&copy; 2024 GameReviews</p>
     </footer>
 
-    <script src="/app.js"></script>
-
+    <script src="{{ asset('js/app.js') }}"></script>
 </body>
 </html>

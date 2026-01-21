@@ -201,6 +201,26 @@ main {
     margin-top: 20px;
 }
 
+.spinner {
+    width: 48px;
+    height: 48px;
+    border: 5px solid rgba(0, 0, 0, 0.1);
+    border-top-color: var(--color-primario);
+    border-radius: 50%;
+    animation: girar 1s linear infinite;
+    display: block;
+    margin: 30px auto;
+}
+
+@keyframes girar {
+    from{
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
 /* --- RESPONSIVE (Móvil) --- */
 @media (max-width: 600px) {
     .barra-superior {

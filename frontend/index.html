@@ -4,28 +4,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GameReviews - Inicio</title>
-    
     <link rel="stylesheet" href="css/estilos.css">
 </head>
 <body>
-
     <header class="barra-superior">
-        <div class="icono-menu" onclick="menu()">☰</div>
-        
+        <div class="icono-menu" id="btn-menu" onclick="menu()" style="display: none;">☰</div>
         <h1>Inicio</h1>
-        
-        <div class="botones-auth">
+        <div class="botones-auth" id="caja-botones-auth">
             <a href="/login" class="btn-login">Iniciar Sesión</a>
             <a href="/register" class="btn-register">Registrar</a>
+        </div>
+
+        <div class="usuario-info" id="caja-usuario-info" style="display: none; align-items: center; gap: 10px;">
+            <span id="nombre-usuario" style="color: white; font-weight: bold;">Hola, Gamer</span>
+            <button id="btn-logout" class="btn-login" style="background-color: #ef4444; border:none; cursor:pointer;">Salir</button>
         </div>
     </header>
 
     <nav id="menu-principal" class="menu-oculto">
         <ul>
-            <li onclick="irA('inicio')">Inicio</li>
-            <li onclick="irA('videojuegos')">Videojuegos</li>
-            <li onclick="irA('reseñas')">Reseñas</li>
-            <li onclick="irA('favoritos')">Favoritos</li>
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="videojuegos.html">Videojuegos</a></li>
+            <li><a href="perfil.html">Editar Perfil</a></li>
+            <li><a href="reseñas.html">Reseñas</a></li>
         </ul>
     </nav>
 
@@ -37,24 +38,24 @@
                 Además, te permitimos crear tu lista de juegos favoritos y reordenarla a tu gusto con nuestro sistema interactivo.
             </p>
         </section>
-    <section class="carrusel-container">
-        <div class="carrusel-slide">
-            <img src="img/banner1.jpg" class="imagen-carrusel activa" alt="Elden Ring">
-            <img src="img/banner2.jpg" class="imagen-carrusel" alt="Cyberpunk 2077">
-            <img src="img/banner3.jpg" class="imagen-carrusel" alt="Red Dead Redemption 2">
-            <img src="img/banner4.jpg" class="imagen-carrusel" alt="Black Myth: Wukong">
-            <img src="img/banner5.jpg" class="imagen-carrusel" alt="God of War">
-            <img src="img/banner6.jpg" class="imagen-carrusel" alt="Baldurs Gate 3">
-            <img src="img/banner7.jpg" class="imagen-carrusel" alt="Spider-Man">
-        </div>
-        
-        <button class="btn-prev" onclick="moverCarrusel(-1)"><</button>
-        <button class="btn-next" onclick="moverCarrusel(1)">></button>
-    </section>
+
+        <section class="carrusel-container">
+            <div class="carrusel-slide">
+                <img src="img/banner1.jpg" class="imagen-carrusel activa" alt="Elden Ring">
+                <img src="img/banner2.jpg" class="imagen-carrusel" alt="Cyberpunk 2077">
+                <img src="img/banner3.jpg" class="imagen-carrusel" alt="Red Dead Redemption 2">
+                <img src="img/banner4.jpg" class="imagen-carrusel" alt="Black Myth: Wukong">
+                <img src="img/banner5.jpg" class="imagen-carrusel" alt="God of War">
+                <img src="img/banner6.jpg" class="imagen-carrusel" alt="Baldurs Gate 3">
+                <img src="img/banner7.jpg" class="imagen-carrusel" alt="Spider-Man">
+            </div>
+            <button class="btn-prev" onclick="moverCarrusel(-1)"><</button>
+            <button class="btn-next" onclick="moverCarrusel(1)">></button>
+        </section>
 
         <section class="seccion-reseñas">
             <div id="contenedor-reseñas" class="lista-reseñas">
-                <p>Cargando reseñas de la comunidad...</p>
+                <div class="spinner" role="search" aria-label="Cargando reseñas"></div>
             </div>
         </section>
     </main>
@@ -64,6 +65,5 @@
     </footer>
 
     <script src="js/app.js"></script>
-
 </body>
 </html>
