@@ -3,36 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GameReviews - Inicio</title>
+    <title>GameReviews - Dashboard</title>
     <link rel="stylesheet" href="{{ asset('css/estilos.css') }}">
 </head>
 <body>
     <header class="barra-superior">
-        <div class="icono-menu" id="btn-menu" onclick="menu()" style="display: {{ Auth::check() ? 'block' : 'none' }};">☰</div>
+        <div class="icono-menu" id="btn-menu" onclick="menu()">☰</div>
         
         <h1>Inicio</h1>
 
-        @guest
-            <div class="botones-auth" id="caja-botones-auth" style="display: flex;">
-                <a href="/login" class="btn-login">Iniciar Sesión</a>
-                <a href="/register" class="btn-register">Registrar</a>
-            </div>
-        @endguest
-
-        @auth
-            <div class="usuario-info" id="caja-usuario-info" style="display: flex; align-items: center; gap: 10px;">
-                <span id="nombre-usuario" style="color: white; font-weight: bold;">
-                    Hola, {{ Auth::user()->name }}
-                </span>
-                
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-                    <button type="submit" id="btn-logout" class="btn-login" style="background-color: #ef4444; border:none; cursor:pointer;">
-                        Salir
-                    </button>
-                </form>
-            </div>
-        @endauth
+        <div class="usuario-info" id="caja-usuario-info" style="display: flex; align-items: center; gap: 10px;">
+            <span id="nombre-usuario" style="color: white; font-weight: bold;">
+                Hola, {{ Auth::user()->name }}
+            </span>
+            
+            <form method="POST" action="/api/logout">
+                @csrf
+                <button type="submit" id="btn-logout" class="btn-login" style="background-color: #ef4444; border:none; cursor:pointer;">
+                    Salir
+                </button>
+            </form>
+        </div>
     </header>
 
     <nav id="menu-principal" class="menu-oculto">
@@ -46,12 +37,22 @@
 
     <main>
         <section class="intro-texto">
-            <p>Somos una plataforma digital dedicada al almacenamiento e información de videojuegos...</p>
+            <p>
+                Somos una plataforma digital dedicada al almacenamiento e información de videojuegos. 
+                Aquí podrás consultar fichas técnicas detalladas y leer o publicar reseñas para compartir tu opinión con la comunidad. 
+                Además, te permitimos crear tu lista de juegos favoritos y reordenarla a tu gusto con nuestro sistema interactivo.
+            </p>
         </section>
 
         <section class="carrusel-container">
             <div class="carrusel-slide">
-                <img src="img/banner1.jpg" class="imagen-carrusel activa" alt="Elden Ring">
+                <img src="{{ asset('img/banner1.jpg') }}" class="imagen-carrusel activa" alt="Elden Ring">
+                <img src="{{ asset('img/banner2.jpg') }}" class="imagen-carrusel" alt="Cyberpunk 2077">
+                <img src="{{ asset('img/banner3.jpg') }}" class="imagen-carrusel" alt="Red Dead Redemption 2">
+                <img src="{{ asset('img/banner4.jpg') }}" class="imagen-carrusel" alt="Black Myth: Wukong">
+                <img src="{{ asset('img/banner5.jpg') }}" class="imagen-carrusel" alt="God of War">
+                <img src="{{ asset('img/banner6.jpg') }}" class="imagen-carrusel" alt="Baldurs Gate 3">
+                <img src="{{ asset('img/banner7.jpg') }}" class="imagen-carrusel" alt="Spider-Man">
             </div>
             <button class="btn-prev" onclick="moverCarrusel(-1)"><</button>
             <button class="btn-next" onclick="moverCarrusel(1)">></button>
@@ -65,9 +66,12 @@
     </main>
 
     <footer class="barra-inferior">
-        <p>&copy; 2024 GameReviews</p>
+        <p>&copy; 2026 GameReviews</p>
     </footer>
 
+    <script>
+        window.usuarioActual = "{{ Auth::user()->name }}";
+    </script>
     <script src="{{ asset('js/app.js') }}"></script>
 </body>
 </html>

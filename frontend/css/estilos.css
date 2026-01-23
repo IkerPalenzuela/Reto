@@ -84,10 +84,15 @@ main {
     background-color: var(--color-accion); 
 }
 
+.btn-logout {
+    background-color: red;
+    border: none;
+    cursor: pointer;
+}
+
 /* --- MENÚ DESPLEGABLE --- */
 #menu-principal {
     background-color: #0a291f;
-    color: white;
     width: 100%;
     display: none;
 }
@@ -98,16 +103,25 @@ main {
 
 #menu-principal ul {
     list-style: none;
+    margin: 0;
+    padding: 0;
 }
 
 #menu-principal li {
-    padding: 15px 20px;
-    border-bottom: 1px solid rgba(255,255,255,0.1);
-    cursor: pointer;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-#menu-principal li:hover {
-    background-color: rgba(255,255,255,0.1);
+/* ENLACES DEL MENÚ */
+#menu-principal a {
+    display: block;
+    padding: 15px 20px;
+    color: white;
+    text-decoration: none;
+}
+
+/* AL PASAR EL RATÓN */
+#menu-principal a:hover {
+    background-color: rgba(255, 255, 255, 0.1);
 }
 
 /* --- SECCIONES MAIN, CARRUSEL Y TARJETAS --- */
@@ -152,6 +166,7 @@ main {
     right: 0; 
 }
 
+/* Estilos de las Reseñas */
 .seccion-reseñas { 
     margin-top: 30px; 
 }
@@ -175,6 +190,21 @@ main {
     transform: translateY(-5px); 
 }
 
+/* Aquí he colocado lo que estaba al final, junto a su tarjeta padre */
+.header-review {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 10px;
+}
+
+.img-juego {
+    width: 60px;
+    height: 60px;
+    object-fit: cover; 
+    border-radius: 5px; 
+}
+
 .titulo-juego { 
     color: var(--color-primario); 
     margin-bottom: 5px; 
@@ -186,19 +216,17 @@ main {
     margin-bottom: 10px; 
 }
 
+.titulo-resena {
+    color: #d35400;
+    font-size: 15px;
+    margin: 10px 0;
+}
+
 .autor { 
     font-size: 12px; 
     color: #666; 
     display: block; 
     margin-bottom: 10px; 
-}
-
-.barra-inferior {
-    background-color: var(--color-primario);
-    color: var(--color-blanco);
-    text-align: center;
-    padding: 15px;
-    margin-top: 20px;
 }
 
 .spinner {
@@ -219,6 +247,15 @@ main {
     to {
         transform: rotate(360deg);
     }
+}
+
+/* --- FOOTER --- */
+.barra-inferior {
+    background-color: var(--color-primario);
+    color: var(--color-blanco);
+    text-align: center;
+    padding: 15px;
+    margin-top: 20px;
 }
 
 /* --- RESPONSIVE (Móvil) --- */
@@ -242,25 +279,4 @@ main {
     .tarjeta-review {
         width: 100%;
     }
-}
-
-/* NUEVO: ESTILOS PARA LA IMAGEN DE LA RESEÑA */
-.header-review {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    margin-bottom: 10px;
-}
-
-.img-juego {
-    width: 60px;
-    height: 60px;
-    object-fit: cover; 
-    border-radius: 5px; 
-}
-
-.titulo-resena {
-    color: #d35400;
-    font-size: 15px;
-    margin: 10px 0;
 }

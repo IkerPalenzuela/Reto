@@ -2,11 +2,19 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 
 // Redireccion Raiz
 Route::get('/', function () {
     return redirect('/index.html');
 });
+
+Route::post('/api/logout', function () {
+    Auth::guard('web')->logout();
+    request()->session()->invalidate();
+    request()->session()->regenerateToken();
+    return redirect()->away('http://localhost/index.html');
+})->name('logout');
 
 // Panel de control
 Route::get('/dashboard', function () {

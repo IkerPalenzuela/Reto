@@ -2,7 +2,6 @@ version: '3.8'
 
 services:
   # --- 1. PROXY INVERSO (NGINX) ---
-  # Único punto de entrada. Recibe al usuario y decide a dónde mandarlo.
   proxy:
     image: nginx:alpine
     container_name: reto-proxy
@@ -22,7 +21,6 @@ services:
     build: ./frontend
     container_name: reto-frontend
     restart: always
-    # No exponemos puertos hacia fuera, solo a la red interna
     networks:
       - red-reto
 
@@ -30,7 +28,7 @@ services:
   backend:
     build: 
       context: ./backend
-      dockerfile: Dockerfile  # Busca el archivo en backend/Dockerfile
+      dockerfile: Dockerfile
     container_name: reto-backend
     restart: always
     volumes:

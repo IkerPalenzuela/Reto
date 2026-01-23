@@ -1,8 +1,6 @@
 // CONTROL DE SESION
 document.addEventListener('DOMContentLoaded', function(){
-    // CAMBIO: En lugar de localStorage, leemos la variable que pusimos en el HTML
     let usuario = window.usuarioActual;
-
     // Atributos que vamos a mostrar/ocultar
     let btn_menu = document.getElementById('btn-menu');
     let caja_botones = document.getElementById('caja-botones-auth');
@@ -18,7 +16,6 @@ document.addEventListener('DOMContentLoaded', function(){
         if(caja_botones) caja_botones.style.display = 'none';
         if(caja_usuario) caja_usuario.style.display = 'flex';
         if(texto_usuario) texto_usuario.textContent = 'Hola, ' + usuario;
-
     // Si no esta logueado
     } else {
         console.log("Modo invitado");
@@ -26,15 +23,6 @@ document.addEventListener('DOMContentLoaded', function(){
         if(btn_menu) btn_menu.style.display = 'none';
         if(caja_usuario) caja_usuario.style.display = 'none';
         if(caja_botones) caja_botones.style.display = 'flex';
-    }
-
-    // Funcionalidad del boton Salir
-    if(btn_logout){
-        btn_logout.addEventListener('click', function(){
-            // YA NO HACEMOS NADA AQUI. 
-            // Al ser un boton dentro de un form, Laravel se encarga de cerrar la sesion.
-            // Simplemente dejamos que el formulario se envíe.
-        });
     }
 });
 
@@ -46,9 +34,7 @@ function menu(){
 
 // Función para controlar la navegacion y proteger rutas
 function irA(seccion) {
-    // CAMBIO: Leemos la misma variable global
-    let estoy_logueado = window.usuarioActual; 
-
+    let estoy_logueado = window.usuarioActual;
     if (estoy_logueado && estoy_logueado !== "") {
         // Si tiene permiso, le dejamos ir a la pagina correspondiente
         console.log("Usuario autorizado. Navegando a: " + seccion);
@@ -57,9 +43,9 @@ function irA(seccion) {
         } else if (seccion == 'videojuegos') {
             window.location.href = '/games';    
         } else if (seccion == 'reseñas') {
-            window.location.href = '/reviews';   
+            window.location.href = '/reviews';  
         } else if (seccion == 'perfil') {
-            window.location.href = '/profile'; 
+            window.location.href = '/profile';
         }
     } else {
         console.log("Usuario no registrado. Redirigiendo a Login...");
@@ -67,12 +53,11 @@ function irA(seccion) {
     }
 }
 
-// CODIGO DEL CARRUSEL DE IMAGENES (Esto no lo he tocado)
+// CODIGO DEL CARRUSEL DE IMAGENES
 let indice = 0;
 
 function mostrarImagen() {
-    let imagenes = document.querySelectorAll('.imagen-carrusel'); 
-    
+    let imagenes = document.querySelectorAll('.imagen-carrusel');
     if (indice >= imagenes.length) {
         indice = 0;
     } else if (indice < 0) {
@@ -94,7 +79,7 @@ setInterval(function() {
     moverCarrusel(1);
 }, 4000);
 
-// CARGAMOS LAS RESEÑAS DESDE LA API (Esto no lo he tocado)
+// CARGAMOS LAS RESEÑAS DESDE LA API
 fetch('/api/reviews')
     .then(function(respuesta) {
         return respuesta.json();
@@ -103,7 +88,6 @@ fetch('/api/reviews')
         let contenedor = document.getElementById('contenedor-reseñas');
         if(contenedor) {
             contenedor.innerHTML = '';
-
             datos.forEach(function(review) {
                 let estrellas = '';
                 for(let i=0; i < review.evaluation; i++) {
@@ -119,7 +103,6 @@ fetch('/api/reviews')
                                 <span class="autor">Usuario: ${review.user.name}</span>
                             </div>
                         </div>
-                        
                         <div class="puntuacion">${estrellas}</div>
                         <hr>
                         <h4 class="titulo-resena">"${review.title}"</h4>
@@ -133,3 +116,5 @@ fetch('/api/reviews')
         console.log("Ha habido un error cargando las reseñas");
         console.log(error);
     });
+
+    
