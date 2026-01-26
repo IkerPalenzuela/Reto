@@ -8,16 +8,18 @@
 </head>
 <body>
     <header class="barra-superior">
-        <div class="icono-menu" id="btn-menu" onclick="menu()" style="display: none;">☰</div>
+        <div class="icono-menu" id="btn-menu" onclick="menu()">☰</div>
+        
         <h1>Inicio</h1>
+        
         <div class="botones-auth" id="caja-botones-auth">
             <a href="/login" class="btn-login">Iniciar Sesión</a>
             <a href="/register" class="btn-register">Registrar</a>
         </div>
 
-        <div class="usuario-info" id="caja-usuario-info" style="display: none; align-items: center; gap: 10px;">
-            <span id="nombre-usuario" style="color: white; font-weight: bold;">Hola, Gamer</span>
-            <button id="btn-logout" class="btn-login" style="background-color: #ef4444; border:none; cursor:pointer;">Salir</button>
+        <div class="usuario-info" id="caja-usuario-info">
+            <span id="nombre-usuario" class="nombre-usuario">Hola, Gamer</span>
+            <button id="btn-logout" class="btn-login" style="background-color: red; border:none;">Salir</button>
         </div>
     </header>
 
@@ -52,11 +54,15 @@
             <button class="btn-prev" onclick="moverCarrusel(-1)"><</button>
             <button class="btn-next" onclick="moverCarrusel(1)">></button>
         </section>
-
+        
         <section class="seccion-reseñas">
-            <div id="contenedor-reseñas" class="lista-reseñas">
-                <div class="spinner" role="search" aria-label="Cargando reseñas"></div>
+            <div class="tabs-filtro">
+                <button onclick="cargarReseñas()" class="btn-tab">Todas</button>
+                <button onclick="filtrarMejores()" class="btn-tab">Mejores Valoradas (5⭐)</button>
             </div>
+        <div id="contenedor-reseñas" class="lista-reseñas">
+            <div class="spinner" role="search" aria-label="Cargando reseñas"></div>
+        </div>
         </section>
     </main>
 

@@ -15,7 +15,7 @@ class ReviewController extends Controller
     public function index(): JsonResponse
     {
         return response()->json(
-            Review::with(['user', 'game'])->latest()->take(5)->get()
+            Review::with(['user', 'game'])->latest()->get()
         );
     }
 

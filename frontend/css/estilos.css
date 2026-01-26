@@ -6,6 +6,7 @@
     --color-primario: #0f3d2e;
     --color-secundario: #3b82f6;
     --color-accion: #10b981;
+    --color-peligro: #ef4444; /* Rojo para borrar/salir */
     --color-borde: #dddddd;
 }
 
@@ -47,7 +48,8 @@ main {
 .icono-menu {
     font-size: 24px;
     cursor: pointer;
-    margin-right: 15px; 
+    margin-right: 15px;
+    display: none; /* Se oculta por defecto, JS lo activa si hay login */
 }
 
 .barra-superior h1 {
@@ -57,8 +59,9 @@ main {
     text-align: center;
 }
 
+/* --- ZONA DE AUTENTICACIÓN (Header) --- */
 .botones-auth {
-    display: flex;
+    display: flex; /* Se muestra por defecto, JS lo oculta si hay login */
     gap: 10px;
 }
 
@@ -76,6 +79,18 @@ main {
     opacity: 0.8; 
 }
 
+.usuario-info {
+    display: none; /* Se oculta por defecto, JS lo activa (flex) */
+    align-items: center;
+    gap: 10px;
+}
+
+.nombre-usuario {
+    color: #f4f4f4;
+    font-weight: bold;
+}
+
+/* BOTONES GENERALES */
 .btn-login { 
     background-color: var(--color-secundario); 
 }
@@ -85,9 +100,13 @@ main {
 }
 
 .btn-logout {
-    background-color: red;
+    background-color: var(--color-peligro);
     border: none;
     cursor: pointer;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 5px;
+    font-weight: bold;
 }
 
 /* --- MENÚ DESPLEGABLE --- */
@@ -111,7 +130,6 @@ main {
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-/* ENLACES DEL MENÚ */
 #menu-principal a {
     display: block;
     padding: 15px 20px;
@@ -119,12 +137,21 @@ main {
     text-decoration: none;
 }
 
-/* AL PASAR EL RATÓN */
 #menu-principal a:hover {
     background-color: rgba(255, 255, 255, 0.1);
 }
 
-/* --- SECCIONES MAIN, CARRUSEL Y TARJETAS --- */
+/* --- PERFIL DE USUARIO (Nuevo) --- */
+.contenedor-perfil {
+    background-color: var(--color-blanco);
+    padding: 30px;
+    border-radius: 8px;
+    border: 1px solid var(--color-borde);
+    max-width: 600px;
+    margin: 0 auto; /* Centrado horizontal */
+}
+
+/* Reutilizamos intro-texto para secciones de texto simples */
 .intro-texto {
     background-color: var(--color-blanco);
     padding: 20px;
@@ -134,6 +161,61 @@ main {
     text-align: justify;
 }
 
+/* Formulario Perfil */
+.formulario-perfil {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.grupo-input {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.grupo-input label {
+    font-weight: bold;
+    color: var(--color-texto);
+}
+
+.grupo-input input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.btn-guardar {
+    background-color: var(--color-primario);
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background 0.3s;
+}
+
+.btn-guardar:hover {
+    background-color: #0a291f;
+}
+
+.btn-borrar {
+    background-color: var(--color-peligro);
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+/* --- CARRUSEL --- */
 .carrusel-container {
     position: relative;
     width: 100%;
@@ -166,7 +248,37 @@ main {
     right: 0; 
 }
 
-/* Estilos de las Reseñas */
+/* --- RESEÑAS --- */
+.tabs-filtro {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.btn-tab {
+    background-color: var(--color-blanco);
+    color: var(--color-primario);
+    border: 2px solid var(--color-primario);
+    padding: 10px 20px;
+    border-radius: 25px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-tab:hover {
+    background-color: var(--color-primario);
+    color: var(--color-blanco);
+}
+
+/* Clase opcional para cuando una pestaña está seleccionada */
+.btn-tab.active {
+    background-color: var(--color-primario);
+    color: var(--color-blanco);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
 .seccion-reseñas { 
     margin-top: 30px; 
 }
@@ -190,7 +302,6 @@ main {
     transform: translateY(-5px); 
 }
 
-/* Aquí he colocado lo que estaba al final, junto a su tarjeta padre */
 .header-review {
     display: flex;
     align-items: center;
@@ -199,10 +310,10 @@ main {
 }
 
 .img-juego {
-    width: 60px;
-    height: 60px;
+    width: 100%;
+    height: 200px;
     object-fit: cover; 
-    border-radius: 5px; 
+    border-radius: 8px 8px 0 0; 
 }
 
 .titulo-juego { 
@@ -229,6 +340,7 @@ main {
     margin-bottom: 10px; 
 }
 
+/* Spinner de carga */
 .spinner {
     width: 48px;
     height: 48px;
@@ -241,12 +353,8 @@ main {
 }
 
 @keyframes girar {
-    from{
-        transform: rotate(0deg);
-    }
-    to {
-        transform: rotate(360deg);
-    }
+    from{ transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
 }
 
 /* --- FOOTER --- */
@@ -278,5 +386,9 @@ main {
 
     .tarjeta-review {
         width: 100%;
+    }
+    
+    .contenedor-perfil {
+        padding: 15px;
     }
 }

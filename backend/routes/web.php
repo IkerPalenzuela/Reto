@@ -16,6 +16,10 @@ Route::post('/api/logout', function () {
     return redirect()->away('http://localhost/index.html');
 })->name('logout');
 
+Route::get('/usuario-actual', function () {
+    return Auth::user();
+});
+
 // Panel de control
 Route::get('/dashboard', function () {
     return view('dashboard');
