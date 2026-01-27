@@ -1,6 +1,7 @@
 <?php
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\GameController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -16,8 +17,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::view('/dashboard', 'dashboard')->name('dashboard');
 
     // 2. Catálogo de Videojuegos
-    Route::view('/videojuegos', 'videojuegos')->name('videojuegos');
-
+    Route::get('/videojuegos', [GameController::class, 'index'])->name('videojuegos');
     // 3. Perfil
     Route::view('/perfil', 'perfil')->name('perfil');
     

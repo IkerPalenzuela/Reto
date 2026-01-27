@@ -6,22 +6,16 @@ use Illuminate\Database\Seeder;
 use App\Models\Review;
 use App\Models\User;
 use App\Models\Game;
-use App\Models\Company;
 use Illuminate\Support\Facades\Hash;
 
 class ReviewSeeder extends Seeder
 {
     public function run(): void
     {
-        // 1. Crear Compañías
-        $nintendo = Company::firstOrCreate(['name' => 'Nintendo'], ['nif' => 'N111', 'location' => 'Japón']);
-        $sony = Company::firstOrCreate(['name' => 'Sony Santa Monica'], ['nif' => 'S222', 'location' => 'USA']);
-        $cdprojekt = Company::firstOrCreate(['name' => 'CD Projekt Red'], ['nif' => 'C333', 'location' => 'Polonia']);
-        $from = Company::firstOrCreate(['name' => 'FromSoftware'], ['nif' => 'F444', 'location' => 'Japón']);
-
-        // 2. Crear Usuarios (SIN la columna phone)
+        // Usuarios de prueba
         $users = [];
         $nombres = ['AlexGamer', 'MartaPlayer', 'Iker_Dev', 'SaraZelda', 'GamerPro99'];
+        
         foreach ($nombres as $nombre) {
             $users[] = User::firstOrCreate(
                 ['email' => strtolower($nombre) . '@test.com'],
@@ -29,45 +23,32 @@ class ReviewSeeder extends Seeder
             );
         }
 
-        // 3. Crear Juegos
-        $juegos = [
-            ['name' => 'Zelda: TotK', 'company' => $nintendo, 'img' => 'img/zelda.jpg'],
-            ['name' => 'God of War', 'company' => $sony, 'img' => 'img/GODofWAR.jpg'],
-            ['name' => 'Cyberpunk 2077', 'company' => $cdprojekt, 'img' => 'img/Cyberpunk2077.jpg'],
-            ['name' => 'Elden Ring', 'company' => $from, 'img' => 'img/ELDEN_RING.jpg'], 
-            ['name' => 'Baldurs Gate 3', 'company' => $from, 'img' => 'img/Baldurs_Gate.jpg'],
+        // Datos de las reseñas para los juegos de la lista
+        $datos = [
+            ['juego' => 'The Legend of Zelda: Breath of the Wild', 't' => 'Obra maestra', 'c' => 'No puedo dejar de jugar, la libertad es total.', 'e' => 5],
+            ['juego' => 'God of War Ragnarok', 't' => 'Visualmente increíble', 'c' => 'Los gráficos son de otra generación.', 'e' => 5],
+            ['juego' => 'Elden Ring', 't' => 'Un poco difícil', 'c' => 'Me ha costado mucho pasar el primer boss.', 'e' => 4],
+            ['juego' => 'Cyberpunk 2077', 't' => 'Historia profunda', 'c' => 'Hacía tiempo que no disfrutaba tanto de una ciudad futurista.', 'e' => 4],
+            ['juego' => 'Final Fantasy VII Remake', 't' => 'Mejorable', 'c' => 'Tiene algunos bugs visuales, pero el combate es top.', 'e' => 4],
+            ['juego' => 'Super Mario Odyssey', 't' => 'Pura diversión', 'c' => 'Nintendo nunca falla con las plataformas.', 'e' => 5],
+            ['juego' => 'Red Dead Redemption 2', 't' => 'Inmersión total', 'c' => 'Sientes que realmente estás en el oeste.', 'e' => 5],
+            ['juego' => 'Resident Evil 4 Remake', 't' => 'Terror del bueno', 'c' => 'Fiel al original y mucho más intenso.', 'e' => 5],
+            ['juego' => 'Baldur\'s Gate 3', 't' => 'El mejor RPG', 'c' => 'Las decisiones de verdad importan aquí.', 'e' => 5],
+            ['juego' => 'Ghost of Tsushima', 't' => 'Arte en movimiento', 'c' => 'Cada captura de pantalla parece un cuadro.', 'e' => 5],
         ];
 
-        $games = [];
-        foreach ($juegos as $j) {
-            $games[] = Game::firstOrCreate(
-                ['name' => $j['name']],
-                ['company_id' => $j['company']->id, 'description' => 'Un juego increíble.', 'img' => $j['img']]
-            );
-        }
+        foreach ($datos as $index => $d) {
+            $game = Game::where('name', $d['juego'])->first();
 
-        // 4. Crear Reseñas
-        $reseñas = [
-            ['title' => 'Obra maestra', 'cont' => 'No puedo dejar de jugar, la libertad es total.', 'eval' => 5],
-            ['title' => 'Visualmente increíble', 'cont' => 'Los gráficos son de otra generación.', 'eval' => 5],
-            ['title' => 'Un poco difícil', 'cont' => 'Me ha costado mucho pasar el primer boss.', 'eval' => 3],
-            ['title' => 'Historia profunda', 'cont' => 'Hacía tiempo que no lloraba con un final.', 'eval' => 4],
-            ['title' => 'Mejorable', 'cont' => 'Tiene algunos bugs que rompen la experiencia.', 'eval' => 2],
-            ['title' => 'Inmersión total', 'cont' => 'Sientes que realmente estás en ese mundo.', 'eval' => 5],
-            ['title' => 'Divertido con amigos', 'cont' => 'El cooperativo es lo mejor del juego.', 'eval' => 4],
-            ['title' => 'Decepción', 'cont' => 'Esperaba mucho más después de tanto hype.', 'eval' => 1],
-            ['title' => 'El mejor RPG', 'cont' => 'Las decisiones de verdad importan aquí.', 'eval' => 5],
-            ['title' => 'Banda sonora 10/10', 'cont' => 'Escucharía la música incluso sin jugar.', 'eval' => 5],
-        ];
-
-        foreach ($reseñas as $index => $r) {
-            Review::create([
-                'user_id' => $users[$index % 5]->id,
-                'game_id' => $games[$index % 5]->id,
-                'title' => $r['title'],
-                'contenido' => $r['cont'],
-                'evaluation' => $r['eval']
-            ]);
+            if ($game) {
+                Review::create([
+                    'user_id' => $users[$index % 5]->id,
+                    'game_id' => $game->id,
+                    'title' => $d['t'],
+                    'contenido' => $d['c'],
+                    'evaluation' => $d['e']
+                ]);
+            }
         }
     }
 }

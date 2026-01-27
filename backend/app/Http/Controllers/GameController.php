@@ -4,42 +4,39 @@ namespace App\Http\Controllers;
 
 use App\Models\Game;
 use Illuminate\Http\Request;
-use Illuminate\Http\JsonResponse;
 
 class GameController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     * CUMPLE B.2: Búsqueda y Filtro
+     * Muestra el catálogo de juegos.
      */
-    public function index(Request $request): JsonResponse
+    public function index(Request $request) 
     {
-        // Iniciamos la consulta cargando la compañía
-        $query = Game::with('company');
+        // 1. Cargamos las relaciones: company (1:N) y platforms (N:M)
+        $query = Game::with(['company', 'platforms']);
 
-        // SI en la URL viene ?company_id=3, filtramos por esa compañía
+        // 2. Filtro opcional por compañía
         if ($request->has('company_id')) {
             $query->where('company_id', $request->query('company_id'));
         }
 
-        // FALTABA EL PUNTO Y COMA AQUÍ ABAJO
-        return response()->json($query->get());
-    }
+        // 3. Obtenemos los datos
+        $videojuegos = $query->get();
 
-    // ... create y store vacíos ...
+        // 4. RETORNAMOS LA VISTA
+        return view('videojuegos', compact('videojuegos'));
+    }
 
     /**
      * Display the specified resource.
      */
-    public function show(Game $game): JsonResponse
+    public function show(Game $game)
     {
-        // FALTABA EL PUNTO Y COMA AQUÍ ABAJO
         return response()->json(
             $game->load(['company', 'platforms', 'reviews.user'])
         );
     }
 
-    // ... resto de métodos vacíos ...
     public function create() {}
     public function store(Request $request) {}
     public function edit(Game $game) {}
