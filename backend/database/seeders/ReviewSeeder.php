@@ -41,13 +41,15 @@ class ReviewSeeder extends Seeder
             $game = Game::where('name', $d['juego'])->first();
 
             if ($game) {
-                Review::create([
-                    'user_id' => $users[$index % 5]->id,
-                    'game_id' => $game->id,
-                    'title' => $d['t'],
-                    'contenido' => $d['c'],
-                    'evaluation' => $d['e']
-                ]);
+                Review::updateOrCreate(
+                    ['title' => $d['t']],
+                    [
+                        'user_id' => $users[$index % 5]->id,
+                        'game_id' => $game->id,
+                        'contenido' => $d['c'],
+                        'evaluation' => $d['e']
+                    ]
+                );
             }
         }
     }

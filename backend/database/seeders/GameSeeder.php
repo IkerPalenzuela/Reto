@@ -81,7 +81,7 @@ class GameSeeder extends Seeder
             ['nombre' => 'Resident Evil 4 Remake', 'empresa' => $capcom, 'plataformas' => [$pc->id, $ps5->id, $xbox->id], 'url' => 'https://m.media-amazon.com/images/I/71+uL-h6xML._AC_UF894,1000_QL80_.jpg'],
 
             // Square Enix
-            ['nombre' => 'Final Fantasy VII Remake', 'empresa' => $squareEnix, 'plataformas' => [$pc->id, $ps5->id], 'url' => 'hhttps://m.media-amazon.com/images/I/81W8CAno24L._AC_UF894,1000_QL80_.jpg'],
+            ['nombre' => 'Final Fantasy VII Remake', 'empresa' => $squareEnix, 'plataformas' => [$pc->id, $ps5->id], 'url' => 'https://m.media-amazon.com/images/I/81W8CAno24L._AC_UF894,1000_QL80_.jpg'],
             ['nombre' => 'Kingdom Hearts III', 'empresa' => $squareEnix, 'plataformas' => [$pc->id, $ps5->id, $xbox->id], 'url' => 'https://m.media-amazon.com/images/I/81YnlBNpddL.jpg'],
             ['nombre' => 'NieR: Automata', 'empresa' => $squareEnix, 'plataformas' => [$pc->id, $ps5->id, $xbox->id, $switch->id], 'url' => 'https://m.media-amazon.com/images/I/81VQgV-81UL._AC_UF894,1000_QL80_.jpg'],
             ['nombre' => 'Dragon Quest XI', 'empresa' => $squareEnix, 'plataformas' => [$pc->id, $ps5->id, $xbox->id, $switch->id], 'url' => 'https://images-eu.ssl-images-amazon.com/images/I/91KzMhN-e2L._AC_UL600_SR600,600_.jpg'],

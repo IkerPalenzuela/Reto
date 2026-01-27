@@ -58,11 +58,6 @@
         </section>
 
         <section class="seccion-reseñas">
-            <div class="tabs-filtro" style="text-align: center; margin-bottom: 20px;">
-                <button onclick="cargarReseñas()" class="btn-tab">Todas</button>
-                <button onclick="filtrarMejores()" class="btn-tab">Mejores Valoradas (5⭐)</button>
-            </div>
-
             <div id="contenedor-reseñas" class="lista-reseñas">
                 <div class="spinner" role="search" aria-label="Cargando reseñas"></div>
             </div>
