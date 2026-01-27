@@ -72,7 +72,7 @@ class ProfileController extends Controller
             ]
         );
 
-        return response()->json(['message' => 'Updated', 'user' => $user->load('profile')]);
+        return back()->with('success', 'Perfil actualizado correctamente');
     }
 
     /**

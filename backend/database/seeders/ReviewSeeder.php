@@ -46,7 +46,7 @@ class ReviewSeeder extends Seeder
             );
         }
 
-        // 4. Crear 10 Reseñas
+        // 4. Crear Reseñas
         $reseñas = [
             ['title' => 'Obra maestra', 'cont' => 'No puedo dejar de jugar, la libertad es total.', 'eval' => 5],
             ['title' => 'Visualmente increíble', 'cont' => 'Los gráficos son de otra generación.', 'eval' => 5],

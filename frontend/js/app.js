@@ -1,32 +1,60 @@
 // --- 1. CONTROL DE SESIÓN ---
 document.addEventListener('DOMContentLoaded', function(){
     let usuario = window.usuarioActual;
-    if (!usuario) {
-        usuario = ""; 
-    }
 
-    let btn_menu = document.getElementById('btn-menu');
-    let caja_botones = document.getElementById('caja-botones-auth');
-    let caja_usuario = document.getElementById('caja-usuario-info');
-    let texto_usuario = document.getElementById('nombre-usuario');
-
-    if(usuario !== "") {
-        console.log("Hay usuario: " + usuario);
-        if(btn_menu) btn_menu.style.display = 'block';
-        if(caja_botones) caja_botones.style.display = 'none';
-        if(caja_usuario) caja_usuario.style.display = 'flex';
-        if(texto_usuario) texto_usuario.textContent = 'Hola, ' + usuario;
+    // Si entramos en perfil.html, "usuario" será null. Entonces preguntamos a la API:
+    if (!usuario || usuario == "") {
+        fetch('/api/user')
+            .then(function(respuesta) {
+                if (respuesta.ok) {
+                    return respuesta.json();
+                }
+                // Si el servidor da error (no logueado), devolvemos algo vacío
+                return null;
+            })
+            .then(function(datos) {
+                if (datos && datos.name) {
+                    pintarInterfaz(datos.name);
+                } else {
+                    // Si no hay datos, lo tratamos como invitado pero mostramos la página
+                    pintarInterfaz(""); 
+                }
+            })
+            .catch(function(error) {
+                // Si falla la conexión, al menos pintamos la interfaz vacía para que no se bloquee
+                pintarInterfaz("");
+            });
     } else {
-        console.log("No hay usuario (invitado)");
-        if(btn_menu) btn_menu.style.display = 'none';
-        if(caja_usuario) caja_usuario.style.display = 'none';
-        if(caja_botones) caja_botones.style.display = 'flex';
+        // Si ya viene el nombre desde el Dashboard
+        pintarInterfaz(usuario);
     }
 
+    // Cargar reseñas si el contenedor existe
     if (document.getElementById('contenedor-reseñas')) {
         cargarReseñas();
     }
 });
+
+// Esta función es la que "enciende" los botones y el nombre
+function pintarInterfaz(nombre) {
+    let btn_menu = document.getElementById('btn-menu');
+    let caja_usuario = document.getElementById('caja-usuario-info');
+    let texto_usuario = document.getElementById('nombre-usuario');
+    let caja_botones = document.getElementById('caja-botones-auth'); // Los de Login/Registro
+
+    if (nombre !== "") {
+        // Si hay nombre, mostramos menú y nombre
+        if(btn_menu) btn_menu.style.display = 'block';
+        if(caja_usuario) caja_usuario.style.display = 'flex';
+        if(texto_usuario) texto_usuario.textContent = 'Hola, ' + nombre;
+        if(caja_botones) caja_botones.style.display = 'none';
+    } else {
+        // Si es invitado o falló la API, mostramos menú igual para que puedas navegar
+        if(btn_menu) btn_menu.style.display = 'block'; 
+        if(caja_usuario) caja_usuario.style.display = 'none';
+        if(caja_botones) caja_botones.style.display = 'flex';
+    }
+}
 
 // --- 2. MENÚ HAMBURGUESA ---
 function menu(){

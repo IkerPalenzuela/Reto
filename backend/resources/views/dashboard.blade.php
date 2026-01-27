@@ -29,9 +29,9 @@
     <nav id="menu-principal" class="menu-oculto">
         <ul>
             <li><a href="{{ url('/dashboard') }}">Inicio</a></li>
-            <li><a href="/videojuegos.html">Videojuegos</a></li>
-            <li><a href="/perfil.html">Editar Perfil</a></li>
-            <li><a href="/reseñas.html">Reseñas</a></li>
+            <li><a href="{{ url('/videojuegos') }}">Videojuegos</a></li>
+            <li><a href="{{ url('perfil') }}">Editar Perfil</a></li>
+            <li><a href="{{ url('/reseñas') }}">Reseñas</a></li>
         </ul>
     </nav>
 

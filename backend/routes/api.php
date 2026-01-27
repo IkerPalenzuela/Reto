@@ -23,11 +23,9 @@ Route::get('/platforms', [PlatformController::class, 'index']);
 Route::get('/platforms/{platform}', [PlatformController::class, 'show']);
 
 Route::middleware(['auth:sanctum'])->group(function () {
-    // Usuario actual
     Route::get('/user', function (Request $request) {
         return $request->user();
     });
 
-    // Crear reseña
     Route::post('/reviews', [ReviewController::class, 'store']);
 });
