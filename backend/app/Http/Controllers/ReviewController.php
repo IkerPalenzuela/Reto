@@ -39,15 +39,21 @@ class ReviewController extends Controller
             'evaluation' => 'required|integer|min:1|max:5',
         ]);
 
+        $usuario = auth()->user();
+
+        if (!$usuario) {
+            return response()->json(['message' => 'Error: No detecto tu sesión'], 401);
+        }
+
         $review = Review::create([
-            'user_id'    => Auth::id(),
+            'user_id'    => $usuario->id, 
             'game_id'    => $validated['game_id'],
             'title'      => $validated['title'],
             'contenido'  => $validated['contenido'],
             'evaluation' => $validated['evaluation'],
         ]);
 
-        return response()->json(['message' => 'Created', 'data' => $review], 201);
+        return response()->json(['message' => 'Created'], 201);
     }
 
     /**

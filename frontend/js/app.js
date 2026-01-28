@@ -97,16 +97,24 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-// 5. ENVIAR RESEÑA POR API
+// --- 5. ENVIAR RESEÑA POR API ---
 function enviarReseña(e) {
     e.preventDefault();
 
-    // Creamos el objeto con los nombres que espera el ReviewController
+    // Verificamos que los elementos existen antes de leer el valor para evitar errores en consola
+    const gameIdEl = document.getElementById('game_id');
+    const titleEl = document.getElementById('title');
+    const evalEl = document.getElementById('evaluation');
+    const contEl = document.getElementById('contenido');
+    const tokenEl = document.querySelector('input[name="_token"]');
+
+    if (!gameIdEl || !tokenEl) return;
+
     let datos = {
-        game_id: document.getElementById('game_id').value,
-        title: document.getElementById('title').value,
-        evaluation: document.getElementById('evaluation').value,
-        contenido: document.getElementById('contenido').value
+        game_id: gameIdEl.value,
+        title: titleEl.value,
+        evaluation: evalEl.value,
+        contenido: contEl.value
     };
 
     fetch('/api/reviews', {
@@ -114,36 +122,46 @@ function enviarReseña(e) {
         headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
-            'X-CSRF-TOKEN': document.querySelector('input[name="_token"]').value
+            'X-CSRF-TOKEN': tokenEl.value
         },
         body: JSON.stringify(datos)
     })
-    .then(res => res.json())
+    .then(res => {
+        if (!res.ok) throw new Error('Error en el servidor');
+        return res.json();
+    })
     .then(json => {
+        // Tu controlador devuelve "Created" con C mayúscula, asegúrate de que coincida
         if (json.message === 'Created') {
             alert('¡Reseña guardada!');
             window.location.href = '/dashboard';
         } else {
-            alert('Error al guardar');
+            alert('Error al guardar: ' + (json.message || 'Datos inválidos'));
         }
     })
-    .catch(err => console.error("Error:", err));
+    .catch(err => {
+        console.error("Error:", err);
+        alert('Error de conexión o de validación');
+    });
 }
 
-// Actualizar el DOMContentLoaded para que también escuche el formulario
+// UN SOLO DOMContentLoaded para todo
 document.addEventListener('DOMContentLoaded', function() {
+    // Carga de reseñas (Dashboard / Index)
     if (document.getElementById('contenedor-reseñas')) {
         cargarReseñas();
     }
     
+    // Escucha del formulario (reseñas.blade)
     let formulario = document.getElementById('form-review');
     if (formulario) {
         formulario.addEventListener('submit', enviarReseña);
     }
 });
 
-// Exponer funciones al HTML
+// Exponer funciones al HTML para que el menú y los tabs sigan funcionando
 window.menu = menu;
 window.moverCarrusel = moverCarrusel;
 window.cargarReseñas = cargarReseñas;
 window.filtrarPlataforma = filtrarPlataforma;
+window.enviarReseña = enviarReseña; // Añadimos esta
