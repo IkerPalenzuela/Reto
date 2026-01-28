@@ -97,6 +97,51 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
+// 5. ENVIAR RESEÑA POR API
+function enviarReseña(e) {
+    e.preventDefault();
+
+    // Creamos el objeto con los nombres que espera el ReviewController
+    let datos = {
+        game_id: document.getElementById('game_id').value,
+        title: document.getElementById('title').value,
+        evaluation: document.getElementById('evaluation').value,
+        contenido: document.getElementById('contenido').value
+    };
+
+    fetch('/api/reviews', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('input[name="_token"]').value
+        },
+        body: JSON.stringify(datos)
+    })
+    .then(res => res.json())
+    .then(json => {
+        if (json.message === 'Created') {
+            alert('¡Reseña guardada!');
+            window.location.href = '/dashboard';
+        } else {
+            alert('Error al guardar');
+        }
+    })
+    .catch(err => console.error("Error:", err));
+}
+
+// Actualizar el DOMContentLoaded para que también escuche el formulario
+document.addEventListener('DOMContentLoaded', function() {
+    if (document.getElementById('contenedor-reseñas')) {
+        cargarReseñas();
+    }
+    
+    let formulario = document.getElementById('form-review');
+    if (formulario) {
+        formulario.addEventListener('submit', enviarReseña);
+    }
+});
+
 // Exponer funciones al HTML
 window.menu = menu;
 window.moverCarrusel = moverCarrusel;

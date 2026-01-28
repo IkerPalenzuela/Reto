@@ -9,6 +9,7 @@ use App\Http\Controllers\ReviewController;
 
 // Reseñas
 Route::get('/reviews', [ReviewController::class, 'index']);
+Route::post('/reviews', [ReviewController::class, 'store']);
 
 // Compañías
 Route::get('/companies', [CompanyController::class, 'index']);
