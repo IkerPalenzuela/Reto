@@ -85,9 +85,9 @@ function pintarReseñas(datos) {
 
 function cargarReseñas() {
     fetch('/api/reviews')
-        .then(res => res.json())
+        .then(respuesta => respuesta.json())
         .then(datos => pintarReseñas(datos))
-        .catch(err => console.error("Error:", err));
+        .catch(error => console.error("Error:", error));
 }
 
 // Ejecutar carga al abrir la página
@@ -131,7 +131,6 @@ function enviarReseña(e) {
         return res.json();
     })
     .then(json => {
-        // Tu controlador devuelve "Created" con C mayúscula, asegúrate de que coincida
         if (json.message === 'Created') {
             alert('¡Reseña guardada!');
             window.location.href = '/dashboard';

@@ -17,20 +17,20 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Vistas
     Route::view('/dashboard', 'dashboard')->name('dashboard');
-    Route::view('/perfil', 'perfil')->name('perfil');
 
     // Controlador de Juegos
-    Route::get('/videojuegos', [GameController::class, 'index'])->name('videojuegos');
+    Route::get('/games', [GameController::class, 'index'])->name('games');
 
     // Gestión de Perfil
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    // RESEÑAS (Formulario y Guardado)
-    Route::get('/reseñas', function () {
-        $videojuegos = Game::all(); 
-        return view('reseñas', compact('videojuegos'));
-    })->name('reseñas.crear');
+    // REVIEWS (Formulario y Guardado)
+    Route::get('/reviews', function () {
+        $videojuegos = Game::all();
+        // IMPORTANTE: 'review' en singular porque tu archivo es review.blade.php
+        return view('review', compact('videojuegos')); 
+    })->name('reviews.create');
 
     Route::post('/reviews', [ReviewController::class, 'store'])->name('reviews.store');
 });

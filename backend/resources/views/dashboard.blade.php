@@ -17,7 +17,7 @@
                 Hola, {{ Auth::user()->name }}
             </span>
             
-            <form method="POST" action="/api/logout">
+            <form method="POST" action="/logout">
                 @csrf
                 <button type="submit" id="btn-logout" class="btn-logout">
                     Salir
@@ -29,9 +29,9 @@
     <nav id="menu-principal" class="menu-oculto">
         <ul>
             <li><a href="{{ url('/dashboard') }}">Inicio</a></li>
-            <li><a href="{{ url('/videojuegos') }}">Videojuegos</a></li>
-            <li><a href="{{ url('perfil') }}">Editar Perfil</a></li>
-            <li><a href="{{ url('/reseñas') }}">Reseñas</a></li>
+            <li><a href="{{ url('/games') }}">Videojuegos</a></li>
+            <li><a href="{{ url('/profile') }}">Editar Perfil</a></li>
+            <li><a href="{{ url('/reviews') }}">Reseñas</a></li>
         </ul>
     </nav>
 

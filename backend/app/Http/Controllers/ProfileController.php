@@ -6,66 +6,38 @@ use App\Models\Profile;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\View\View;
+use Illuminate\Http\RedirectResponse;
 
 class ProfileController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
+    public function index() {}
+    public function create() {}
+    public function store(Request $request) {}
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
     public function show(Profile $profile): JsonResponse
     {
         return response()->json(Auth::user()->load('profile'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Profile $profile)
+    public function edit(Request $request): View
     {
-        //
+        return view('profile', [
+            'user' => $request->user(),
+        ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request): RedirectResponse
     {
-        $user = Auth::user();
-
         $validated = $request->validate([
             'name'    => 'required|string|max:255',
             'surname' => 'nullable|string|max:255',
             'phone'   => 'nullable|string|max:20',
         ]);
 
-        // Actualizamos nombre del usuario
+        $user = $request->user();
         $user->update(['name' => $validated['name']]);
 
-        // Actualizamos o creamos el perfil asociado
         $user->profile()->updateOrCreate(
             ['user_id' => $user->id],
             [
@@ -77,11 +49,5 @@ class ProfileController extends Controller
         return back()->with('success', 'Perfil actualizado correctamente');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Profile $profile)
-    {
-        //
-    }
+    public function destroy(Profile $profile) {}
 }

@@ -6,6 +6,8 @@ use App\Models\Review;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\View\View;
+use Illuminate\Http\RedirectResponse;
 
 class ReviewController extends Controller
 {
@@ -47,7 +49,7 @@ class ReviewController extends Controller
             'evaluation' => $validated['evaluation'],
         ]);
 
-        return redirect()->route('reseñas.crear')
+        return redirect()->route('reviews.create')
                          ->with('success', '¡Reseña guardada correctamente!');
     }
 

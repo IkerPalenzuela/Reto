@@ -7,9 +7,6 @@ use Illuminate\Http\Request;
 
 class GameController extends Controller
 {
-    /**
-     * Muestra el catálogo de juegos.
-     */
     public function index(Request $request) 
     {
         $query = Game::with(['company', 'platforms']);
@@ -18,30 +15,14 @@ class GameController extends Controller
             $query->where('company_id', $request->query('company_id'));
         }
 
-        $videojuegos = $query->get();
-
-        return view('videojuegos', compact('videojuegos'));
+        $game = $query->get();
+        return view('game', compact('game'));
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Game $game){ 
-        //
-    }
-    public function create() {
-        //
-    }
-    public function store(Request $request) {
-        //
-    }
-    public function edit(Game $game) { 
-        //
-    }
-    public function update(Request $request, Game $game) {
-        //
-    }
-    public function destroy(Game $game) {
-        //
-    }
+    public function show(Game $game){}
+    public function create() {}
+    public function store(Request $request) {}
+    public function edit(Game $game) {}
+    public function update(Request $request, Game $game) {}
+    public function destroy(Game $game) {}
 }
