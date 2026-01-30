@@ -52,7 +52,7 @@ class ProfileController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Profile $profile): JsonResponse
+    public function update(Request $request): RedirectResponse
     {
         $user = Auth::user();
 
@@ -62,8 +62,10 @@ class ProfileController extends Controller
             'phone'   => 'nullable|string|max:20',
         ]);
 
+        // Actualizamos nombre del usuario
         $user->update(['name' => $validated['name']]);
 
+        // Actualizamos o creamos el perfil asociado
         $user->profile()->updateOrCreate(
             ['user_id' => $user->id],
             [

@@ -30,7 +30,7 @@ class ReviewController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request): JsonResponse
+    public function store(Request $request)
     {
         $validated = $request->validate([
             'game_id'    => 'required|exists:games,id',
@@ -39,21 +39,16 @@ class ReviewController extends Controller
             'evaluation' => 'required|integer|min:1|max:5',
         ]);
 
-        $usuario = auth()->user();
-
-        if (!$usuario) {
-            return response()->json(['message' => 'Error: No detecto tu sesión'], 401);
-        }
-
-        $review = Review::create([
-            'user_id'    => $usuario->id, 
+        Review::create([
+            'user_id'    => Auth::id(),
             'game_id'    => $validated['game_id'],
             'title'      => $validated['title'],
             'contenido'  => $validated['contenido'],
             'evaluation' => $validated['evaluation'],
         ]);
 
-        return response()->json(['message' => 'Created'], 201);
+        return redirect()->route('reseñas.crear')
+                         ->with('success', '¡Reseña guardada correctamente!');
     }
 
     /**
