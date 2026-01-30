@@ -17,6 +17,6 @@ class DatabaseSeeder extends Seeder
         $this->call(GameSeeder::class);
 
         // 3. Reseñas
-        Review::factory(20)->create();
+        $this->call(ReviewSeeder::class);
     }
 }
