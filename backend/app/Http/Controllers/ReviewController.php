@@ -26,7 +26,8 @@ class ReviewController extends Controller
      */
     public function create()
     {
-        //
+        $game = \App\Models\Game::all();
+        return view('review', compact('game'));
     }
 
     /**

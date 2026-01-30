@@ -34,7 +34,7 @@
                 @csrf
                 <label>Videojuego:</label>
                 <select id="game_id" name="game_id" required>
-                    @foreach($videojuegos as $juego)
+                    @foreach($game as $juego)
                         <option value="{{ $juego->id }}">{{ $juego->name }}</option>
                     @endforeach
                 </select>

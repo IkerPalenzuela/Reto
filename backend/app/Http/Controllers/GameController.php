@@ -4,10 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Game;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class GameController extends Controller
 {
-    public function index(Request $request) 
+    public function index(Request $request): View
     {
         $query = Game::with(['company', 'platforms']);
 

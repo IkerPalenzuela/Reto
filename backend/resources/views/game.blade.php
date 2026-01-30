@@ -55,7 +55,7 @@
                     </tr>
                 </thead>
                 <tbody id="tabla-videojuegos">
-                    @foreach($videojuegos as $juego)
+                    @foreach($game as $juego)
                     <tr>
                         <td style="padding: 10px; border: 1px solid #ddd; text-align: center;">
                             <img src="{{ $juego->img }}" alt="{{ $juego->name }}" style="width: 80px; height: auto; border-radius: 5px;">
