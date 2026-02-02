@@ -26,12 +26,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
 
     // REVIEWS (Formulario y Guardado)
-    Route::get('/reviews', function () {
-        $videojuegos = Game::all();
-        // IMPORTANTE: 'review' en singular porque tu archivo es review.blade.php
-        return view('review', compact('videojuegos')); 
-    })->name('reviews.create');
-
+    Route::get('/reviews', [ReviewController::class, 'create'])->name('reviews.create');
     Route::post('/reviews', [ReviewController::class, 'store'])->name('reviews.store');
 });
 

@@ -54,7 +54,7 @@
 
                 <div class="grupo-input">
                     <label for="surname">Apellido</label>
-                    <input type="text" id="surname" name="surname" value="{{ Auth::user()->surname }}" required>
+                    <input type="text" id="surname" name="surname" value="{{ Auth::user()->profile?->surname }}" required>
                 </div>
 
                 <div class="grupo-input">
