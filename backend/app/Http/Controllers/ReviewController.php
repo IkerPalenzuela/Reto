@@ -3,36 +3,24 @@
 namespace App\Http\Controllers;
 
 use App\Models\Review;
+use App\Models\Game; 
 use Illuminate\Http\Request;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\View\View;
-use Illuminate\Http\RedirectResponse;
 
 class ReviewController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index(): JsonResponse
+    public function index()
     {
-        return response()->json(
-            Review::with(['user', 'game'])->latest()->get()
-        );
+        // Solo datos, nada de vistas
+        $reviews = Review::with(['user', 'game'])->latest()->get();
+        return response()->json($reviews);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        $game = \App\Models\Game::all();
+        $game = Game::all();
         return view('review', compact('game'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -42,47 +30,14 @@ class ReviewController extends Controller
             'evaluation' => 'required|integer|min:1|max:5',
         ]);
 
-        Review::create([
-            'user_id'    => Auth::id(),
-            'game_id'    => $validated['game_id'],
-            'title'      => $validated['title'],
-            'contenido'  => $validated['contenido'],
-            'evaluation' => $validated['evaluation'],
-        ]);
+        $review = new Review();
+        $review->user_id = auth()->id();
+        $review->game_id = $validated['game_id'];
+        $review->title = $validated['title'];
+        $review->contenido = $validated['contenido'];
+        $review->evaluation = $validated['evaluation'];
+        $review->save();
 
-        return redirect()->route('reviews.create')
-                         ->with('success', '¡Reseña guardada correctamente!');
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Review $review)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Review $review)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Review $review)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Review $review)
-    {
-        //
+        return response()->json(['message' => 'Created'], 201);
     }
 }

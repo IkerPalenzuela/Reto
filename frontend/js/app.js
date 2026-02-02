@@ -58,7 +58,7 @@ function filtrarPlataforma(plataforma, botonActivo) {
     }
 }
 
-// --- 4. CARGA DE RESEÑAS POR API ---
+// 4. CARGA DE RESEÑAS
 function pintarReseñas(datos) {
     let contenedor = document.getElementById('contenedor-reseñas');
     if (contenedor) {
@@ -87,80 +87,51 @@ function cargarReseñas() {
     fetch('/api/reviews')
         .then(respuesta => respuesta.json())
         .then(datos => pintarReseñas(datos))
-        .catch(error => console.error("Error:", error));
+        .catch(error => console.log("Error cargando:", error));
 }
 
-// Ejecutar carga al abrir la página
+// 5. ENVIAR RESEÑA
 document.addEventListener('DOMContentLoaded', function() {
     if (document.getElementById('contenedor-reseñas')) {
         cargarReseñas();
     }
-});
-
-// --- 5. ENVIAR RESEÑA POR API ---
-function enviarReseña(e) {
-    e.preventDefault();
-
-    // Verificamos que los elementos existen antes de leer el valor para evitar errores en consola
-    const gameIdEl = document.getElementById('game_id');
-    const titleEl = document.getElementById('title');
-    const evalEl = document.getElementById('evaluation');
-    const contEl = document.getElementById('contenido');
-    const tokenEl = document.querySelector('input[name="_token"]');
-
-    if (!gameIdEl || !tokenEl) return;
-
-    let datos = {
-        game_id: gameIdEl.value,
-        title: titleEl.value,
-        evaluation: evalEl.value,
-        contenido: contEl.value
-    };
-
-    fetch('/api/reviews', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-            'X-CSRF-TOKEN': tokenEl.value
-        },
-        body: JSON.stringify(datos)
-    })
-    .then(res => {
-        if (!res.ok) throw new Error('Error en el servidor');
-        return res.json();
-    })
-    .then(json => {
-        if (json.message === 'Created') {
-            alert('¡Reseña guardada!');
-            window.location.href = '/dashboard';
-        } else {
-            alert('Error al guardar: ' + (json.message || 'Datos inválidos'));
-        }
-    })
-    .catch(err => {
-        console.error("Error:", err);
-        alert('Error de conexión o de validación');
-    });
-}
-
-// UN SOLO DOMContentLoaded para todo
-document.addEventListener('DOMContentLoaded', function() {
-    // Carga de reseñas (Dashboard / Index)
-    if (document.getElementById('contenedor-reseñas')) {
-        cargarReseñas();
-    }
-    
-    // Escucha del formulario (reseñas.blade)
     let formulario = document.getElementById('form-review');
+
     if (formulario) {
-        formulario.addEventListener('submit', enviarReseña);
+        formulario.addEventListener('submit', function(e) {
+            e.preventDefault();
+            let token = document.querySelector('input[name="_token"]').value;
+
+            // Preparamos los datos
+            let datos = {
+                game_id: document.getElementById('game_id').value,
+                title: document.getElementById('title').value,
+                evaluation: document.getElementById('evaluation').value,
+                contenido: document.getElementById('contenido').value
+            };
+
+            fetch('/reviews', { 
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': token
+                },
+                body: JSON.stringify(datos)
+            })
+            .then(respuesta => {
+                if (respuesta.ok) {
+                    alert('Reseña guardada');
+                    window.location.href = '/dashboard';
+                } else {
+                    alert('Error al guardar la reseña');
+                }
+            })
+            .catch(error => console.log(error));
+        });
     }
 });
 
-// Exponer funciones al HTML para que el menú y los tabs sigan funcionando
+// EXPORTAMOS LAS FUNCIONES
 window.menu = menu;
 window.moverCarrusel = moverCarrusel;
-window.cargarReseñas = cargarReseñas;
 window.filtrarPlataforma = filtrarPlataforma;
-window.enviarReseña = enviarReseña; // Añadimos esta
