@@ -39,4 +39,9 @@ Route::post('/logout', function () {
     return redirect('/index.html');
 })->name('logout');
 
+// 4. API externa
+Route::get('/offers', function (){
+    return view('offer');
+});
+
 require __DIR__.'/auth.php';

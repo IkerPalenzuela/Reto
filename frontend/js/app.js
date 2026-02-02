@@ -131,6 +131,71 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
+
+// 6. API Externa - OFERTAS
+let pagina = 0;
+function cargarOfertas() {
+    let buscador = document.getElementById('buscador-ofertas');
+    let tabla = document.getElementById('tabla-ofertas');
+    let textoPagina = document.getElementById('texto-ofertas');
+    let busqueda = buscador.value;
+    let url = 'https://www.cheapshark.com/api/1.0/deals?storeID=1&pageSize=25';
+
+    url = url +'&pageNumber=' + pagina;
+    if (busqueda != ""){
+        url = url + '&title=' + busqueda;
+    }
+
+    fetch(url)
+        .then(function(respuesta) {
+            return respuesta.json();
+        })
+        .then(function(datos) {
+            tabla.innerHTML = '';
+            datos.forEach(function(juego) {
+                let fila = `
+                    <tr>
+                        <td><img src="${juego.thumb}" width="60"></td>
+                        <td>${juego.title}</td>
+                        <td style="color:red; text-decoration:line-through">${juego.normalPrice} $</td>
+                        <td style="color:green; font-weight:bold">${juego.salePrice} $</td>
+                        <td>${juego.dealRating} / 10</td>
+                    </tr>
+                `;
+                tabla.innerHTML += fila;
+            });
+
+            textoPagina.innerText = 'Página ' + (pagina + 1);
+        })
+        .catch(function(error) {
+            console.log('Error cargando ofertas:', error);
+        });
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    let existeTabla = document.getElementById('tabla-ofertas-body');
+    if (existeTabla) {
+        cargarOfertas();
+
+        document.getElementById('btn-buscar').addEventListener('click', function() {
+            pagina = 0;
+            cargarOfertas();
+        });
+
+        document.getElementById('btn-siguiente').addEventListener('click', function() {
+            pagina = pagina + 1;
+            cargarOfertas();
+        });
+
+        document.getElementById('btn-anterior').addEventListener('click', function() {
+            if (pagina > 0) {
+                pagina = pagina - 1;
+                cargarOfertas();
+            }
+        });
+    }
+});
+
 // EXPORTAMOS LAS FUNCIONES
 window.menu = menu;
 window.moverCarrusel = moverCarrusel;
