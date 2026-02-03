@@ -29,7 +29,7 @@ body {
 main {
     flex-grow: 1;
     width: 100%;
-    max-width: 1000px;
+    max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
 }
@@ -147,8 +147,49 @@ main {
     padding: 30px;
     border-radius: 8px;
     border: 1px solid var(--color-borde);
-    max-width: 600px;
-    margin: 0 auto; /* Centrado horizontal */
+    /* Quitamos max-width para que la tabla y favoritos tengan espacio */
+    margin: 0 auto;
+}
+
+/* --- ZONA DE FAVORITOS (lado derecho) --- */
+.caja-favoritos {
+    border: 2px dashed #999;
+    border-radius: 10px;
+    padding: 15px;
+    background: #f9f9f9;
+    min-height: 150px;
+    /* Cuando arrastas algo encima se pone verde */
+    transition: background 0.3s;
+}
+
+/* Este estado se activa desde el JS cuando arrastras encima */
+.caja-favoritos.arrastrando-encima {
+    background-color: #d1fae5; /* Verde claro para indicar que puedes soltar */
+    border-color: var(--color-accion);
+}
+
+/* Las imagenes pequeñas que aparecen al soltar un juego */
+.mini-ficha-fav {
+    cursor: pointer; /* Indica que se puede hacer click para borrar */
+}
+
+.mini-ficha-fav img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover; /* La imagen se ajusta sin deformarse */
+    border-radius: 5px;
+    border: 2px solid var(--color-borde);
+    /* Efecto hover para que se vea que puedes hacer click */
+    transition: border-color 0.2s;
+}
+
+.mini-ficha-fav img:hover {
+    border-color: var(--color-peligro); /* Se pone rojo al pasar el ratón, indica que se borrarán */
+}
+
+/* Las filas de la tabla cuando se arrastra */
+.fila-juego:hover {
+    background-color: #f0fdf4; /* Verde muy claro al pasar el ratón */
 }
 
 /* Reutilizamos intro-texto para secciones de texto simples */
@@ -356,6 +397,40 @@ main {
     from{ transform: rotate(0deg); }
     to { transform: rotate(360deg); }
 }
+/* OFERTAS */
+
+/* Tipping de carga */
+.typing {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    height: 20px;
+}
+
+.dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #60a5fa;
+    animation: saltar 1.4s infinite ease-in-out both;
+}
+
+/* Retrasos para crear la ola */
+.dot:nth-child(1) { animation-delay: -0.32s; }
+.dot:nth-child(2) { animation-delay: -0.16s; }
+.dot:nth-child(3) { animation-delay: 0s; }
+
+/* La animación del salto */
+@keyframes saltar {
+    0%, 80%, 100% { 
+        transform: translateY(0); 
+    }
+    40% { 
+        transform: translateY(-15px);
+    }
+}
 
 /* --- FOOTER --- */
 .barra-inferior {
@@ -390,5 +465,17 @@ main {
     
     .contenedor-perfil {
         padding: 15px;
+    }
+
+    /* En móvil el flex se pone en columna para que tabla y favoritos
+       se apilen uno encima del otro en vez de estar lado a lado */
+    .contenedor-perfil > div[style*="display: flex"] {
+        flex-direction: column !important;
+    }
+
+    /* La caja de favoritos en móvil no tiene ancho fijo ni sticky */
+    .contenedor-perfil > div[style*="display: flex"] > div:last-child {
+        width: 100% !important;
+        position: static !important;
     }
 }
