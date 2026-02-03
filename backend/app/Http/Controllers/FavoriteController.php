@@ -9,7 +9,11 @@ use App\Models\Favorite;
 
 class FavoriteController extends Controller
 {
-    public function index() {}
+    public function index()
+    {
+        $game = Auth::user()->favoriteGames()->orderByPivot('position')->get();
+        return view('favorite', ['games' => $game]);
+    }
     public function create() {}
 
     public function store(Request $request){

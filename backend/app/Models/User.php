@@ -47,7 +47,7 @@ class User extends Authenticatable
         ];
     }
 
-    // Un usuario tiene un prefil (1:1)
+    // Un usuario tiene un perfil (1:1)
     public function profile() {
         return $this->hasOne(Profile::class);
     }
@@ -58,8 +58,8 @@ class User extends Authenticatable
     }
 
     // Relacion N:M Favoritos (User <--> Game)
-    public function favorites() {
-        return $this->belongsToMany(Game::class, 'favorites')
+    public function favoriteGame() {
+        return $this->belongsToMany(Game::class, 'favorites', 'user_id', 'game_id')
                     ->withPivot('position')
                     ->withTimestamps();
     }
