@@ -120,7 +120,6 @@ function soltar(evento){
     contenedor.appendChild(nuevoDiv);
 }
 
-
 function guardarFavoritos() {
     // 1. Buscamos todas las fichas que hemos soltado en la caja
     let fichas = document.querySelectorAll('.mini-ficha-fav');
@@ -157,6 +156,38 @@ function guardarFavoritos() {
             document.getElementById('btn-guardar-fav').style.display = 'none';
         } else {
             alert("Hubo un error al guardar. A lo mejor ya los tenías añadidos.");
+        }
+    })
+    .catch(function(error) {
+        console.log("Error en la petición:", error);
+    });
+}
+
+function guardarOrdenFavoritos(){
+    let tarjetas = document.querySelectorAll('.tarjeta-favorito');
+    let orden = [];
+
+    tarjetas.forEach(function(tarjeta) {
+        let favId = tarjeta.getAttribute('data-fav-id');
+        orden.push(favId);
+    });
+
+    if (orden.length == 0) return;
+    let token = document.querySelector('input[name="_token"]').value;
+
+    fetch('/favorites/1', {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': token
+        },
+        body: JSON.stringify({ orden: orden })
+    })
+    .then(function(respuesta) {
+        if (respuesta.ok) {
+            alert("¡Orden de favoritos guardado!");
+        } else {
+            alert("Error al guardar el orden.");
         }
     })
     .catch(function(error) {
