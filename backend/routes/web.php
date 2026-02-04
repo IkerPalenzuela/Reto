@@ -37,7 +37,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Favoritos
     Route::get('/favorites', [FavoriteController::class, 'index'])->name('favorites.index');
     Route::post('/favorites', [FavoriteController::class, 'store'])->name('favorites.store');
-    Route::patch('/favorites/{game}', [FavoriteController::class, 'update'])->name('favorites.update');
 });
 
 // 3. LOGOUT

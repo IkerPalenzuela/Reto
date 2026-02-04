@@ -53,14 +53,14 @@ class User extends Authenticatable
     }
 
     // Relacion 1:N  User --> Reviews
-    public function reviews(){
+    public function reviews() {
         return $this->hasMany(Review::class);
     }
 
     // Relacion N:M Favoritos (User <--> Game)
-    public function favoriteGame() {
-        return $this->belongsToMany(Game::class, 'favorites', 'user_id', 'game_id')
-                    ->withPivot('position')
+    public function favoriteGames() {
+        return $this->belongsToMany(Game::class, 'favorites')
+                    ->withPivot('id', 'position')
                     ->withTimestamps();
     }
 }

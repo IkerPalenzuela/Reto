@@ -45,7 +45,6 @@ function filtrarPlataforma(plataforma, botonActivo) {
             let celda = filas[j].getElementsByTagName('td')[3];
             
             if (celda) {
-                // EL CAMBIO ESTÁ AQUÍ: .trim() quita espacios basura
                 let textoCelda = celda.textContent.trim(); 
                 
                 if (textoCelda.includes(plataforma)) {
@@ -58,7 +57,7 @@ function filtrarPlataforma(plataforma, botonActivo) {
     }
 }
 
-// 4. DRAG & DROP FAVORITOS
+// 4. DRAG & DROP (Solo para AÑADIR a favoritos desde la tabla)
 function arrastrar(evento){
     let fila = evento.currentTarget;
     let datos = {
@@ -68,6 +67,7 @@ function arrastrar(evento){
     };
     evento.dataTransfer.setData("text/plain", JSON.stringify(datos));
 }
+
 function permitirSoltar(evento){
     evento.preventDefault();
     let caja = document.getElementById('zona-favoritos');
@@ -81,64 +81,55 @@ function soltar(evento){
     let caja = document.getElementById('zona-favoritos');
     caja.classList.remove('arrastrando-encima');
 
-    // Recuperamos los datos que guardamos al empezar a arrastrar
+    // Recuperamos los datos
     let textoDatos = evento.dataTransfer.getData("text/plain");
     let juego = JSON.parse(textoDatos);
 
-    // Comprobamos si ya lo hemos metido en la caja para no repetir
+    // Comprobamos si ya existe para no repetir
     if (document.getElementById('fav-' + juego.id)) {
         alert("¡Ese juego ya lo has puesto!");
         return;
     }
 
-    // Ocultamos el texto de "Arrastra aquí..." y mostramos el botón Guardar
+    // Ocultamos texto instrucciones y mostramos botón
     document.getElementById('texto-instruccion').style.display = 'none';
     document.getElementById('btn-guardar-fav').style.display = 'inline-block';
 
-    // Creamos el div pequeñito con la imagen
+    // Creamos el div visual
     let contenedor = document.getElementById('lista-visual-favoritos');
     
     let nuevoDiv = document.createElement('div');
     nuevoDiv.className = 'mini-ficha-fav';
-    nuevoDiv.id = 'fav-' + juego.id; // Le ponemos ID para no repetir
-    nuevoDiv.setAttribute('data-id-juego', juego.id); // Guardamos el ID para enviarlo luego
+    nuevoDiv.id = 'fav-' + juego.id;
+    nuevoDiv.setAttribute('data-id-juego', juego.id);
     
-    // El HTML de dentro: la imagen y un título al pasar el ratón
     nuevoDiv.innerHTML = `<img src="${juego.img}" title="${juego.name}">`;
 
-    // Truco: Si le das click a la imagen pequeña, se borra de la lista
+    // Click para borrar de la lista temporal
     nuevoDiv.onclick = function() {
         this.remove();
-        // Si vaciamos la lista, volvemos a poner el estado inicial
         if (contenedor.children.length === 0) {
             document.getElementById('texto-instruccion').style.display = 'block';
             document.getElementById('btn-guardar-fav').style.display = 'none';
         }
     };
 
-    // Lo añadimos a la caja
     contenedor.appendChild(nuevoDiv);
 }
 
 function guardarFavoritos() {
-    // 1. Buscamos todas las fichas que hemos soltado en la caja
     let fichas = document.querySelectorAll('.mini-ficha-fav');
     let listaIds = [];
 
-    // 2. Recorremos las fichas para sacar solo los IDs
     fichas.forEach(function(elemento) {
         let id = elemento.getAttribute('data-id-juego');
         listaIds.push(id);
     });
 
-    // Si no hay nada, no hacemos nada
     if (listaIds.length === 0) return;
 
-    // 3. Buscamos el token CSRF de Laravel (suele estar en el logout o en un meta)
-    // Buscamos cualquier input hidden que se llame _token
     let token = document.querySelector('input[name="_token"]').value;
 
-    // 4. Hacemos la petición al servidor (Laravel)
     fetch('/favorites', {
         method: 'POST',
         headers: {
@@ -150,7 +141,6 @@ function guardarFavoritos() {
     .then(function(respuesta) {
         if (respuesta.ok) {
             alert("¡Favoritos guardados correctamente!");
-            // Limpiamos la caja visualmente
             document.getElementById('lista-visual-favoritos').innerHTML = '';
             document.getElementById('texto-instruccion').style.display = 'block';
             document.getElementById('btn-guardar-fav').style.display = 'none';
@@ -163,39 +153,7 @@ function guardarFavoritos() {
     });
 }
 
-function guardarOrdenFavoritos(){
-    let tarjetas = document.querySelectorAll('.tarjeta-favorito');
-    let orden = [];
-
-    tarjetas.forEach(function(tarjeta) {
-        let favId = tarjeta.getAttribute('data-fav-id');
-        orden.push(favId);
-    });
-
-    if (orden.length == 0) return;
-    let token = document.querySelector('input[name="_token"]').value;
-
-    fetch('/favorites/1', {
-        method: 'PATCH',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': token
-        },
-        body: JSON.stringify({ orden: orden })
-    })
-    .then(function(respuesta) {
-        if (respuesta.ok) {
-            alert("¡Orden de favoritos guardado!");
-        } else {
-            alert("Error al guardar el orden.");
-        }
-    })
-    .catch(function(error) {
-        console.log("Error en la petición:", error);
-    });
-}
-
-// 4. CARGA DE RESEÑAS
+// 5. CARGA DE RESEÑAS
 function pintarReseñas(datos) {
     let contenedor = document.getElementById('contenedor-reseñas');
     if (contenedor) {
@@ -226,71 +184,6 @@ function cargarReseñas() {
         .then(datos => pintarReseñas(datos))
         .catch(error => console.log("Error cargando:", error));
 }
-
-// 5. ENVIAR RESEÑA
-document.addEventListener('DOMContentLoaded', function() {
-
-    // --- DRAG & DROP: conectamos los eventos aquí porque el HTML ya existe ---
-    // Buscamos todas las filas que tienen clase "fila-juego"
-    // y les ponemos el evento dragstart (cuando empieza a arrastrar)
-    let filas = document.querySelectorAll('.fila-juego');
-    filas.forEach(function(fila) {
-        fila.addEventListener('dragstart', arrastrar);
-    });
-
-    // A la caja de favoritos le conectamos dragover y drop
-    let zonaFavoritos = document.getElementById('zona-favoritos');
-    if (zonaFavoritos) {
-        zonaFavoritos.addEventListener('dragover', permitirSoltar);
-        zonaFavoritos.addEventListener('drop', soltar);
-    }
-
-    // Al botón de guardar favoritos le conectamos el click
-    let btnGuardar = document.getElementById('btn-guardar-fav');
-    if (btnGuardar) {
-        btnGuardar.addEventListener('click', guardarFavoritos);
-    }
-
-    // --- RESEÑAS ---
-    if (document.getElementById('contenedor-reseñas')) {
-        cargarReseñas();
-    }
-    let formulario = document.getElementById('form-review');
-
-    if (formulario) {
-        formulario.addEventListener('submit', function(e) {
-            e.preventDefault();
-            let token = document.querySelector('input[name="_token"]').value;
-
-            // Preparamos los datos
-            let datos = {
-                game_id: document.getElementById('game_id').value,
-                title: document.getElementById('title').value,
-                evaluation: document.getElementById('evaluation').value,
-                contenido: document.getElementById('contenido').value
-            };
-
-            fetch('/reviews', { 
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': token
-                },
-                body: JSON.stringify(datos)
-            })
-            .then(respuesta => {
-                if (respuesta.ok) {
-                    alert('Reseña guardada');
-                    window.location.href = '/dashboard';
-                } else {
-                    alert('Error al guardar la reseña');
-                }
-            })
-            .catch(error => console.log(error));
-        });
-    }
-});
-
 
 // 6. API Externa - OFERTAS
 let pagina = 0;
@@ -346,7 +239,65 @@ function cargarOfertas() {
         });
 }
 
+// 7. GESTIÓN DE EVENTOS DOM
 document.addEventListener('DOMContentLoaded', function() {
+
+    // --- DRAG & DROP (Vista Videojuegos) ---
+    let filas = document.querySelectorAll('.fila-juego');
+    filas.forEach(function(fila) {
+        fila.addEventListener('dragstart', arrastrar);
+    });
+
+    let zonaFavoritos = document.getElementById('zona-favoritos');
+    if (zonaFavoritos) {
+        zonaFavoritos.addEventListener('dragover', permitirSoltar);
+        zonaFavoritos.addEventListener('drop', soltar);
+    }
+
+    let btnGuardar = document.getElementById('btn-guardar-fav');
+    if (btnGuardar) {
+        btnGuardar.addEventListener('click', guardarFavoritos);
+    }
+
+    // --- RESEÑAS ---
+    if (document.getElementById('contenedor-reseñas')) {
+        cargarReseñas();
+    }
+    let formulario = document.getElementById('form-review');
+
+    if (formulario) {
+        formulario.addEventListener('submit', function(e) {
+            e.preventDefault();
+            let token = document.querySelector('input[name="_token"]').value;
+
+            let datos = {
+                game_id: document.getElementById('game_id').value,
+                title: document.getElementById('title').value,
+                evaluation: document.getElementById('evaluation').value,
+                contenido: document.getElementById('contenido').value
+            };
+
+            fetch('/reviews', { 
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': token
+                },
+                body: JSON.stringify(datos)
+            })
+            .then(respuesta => {
+                if (respuesta.ok) {
+                    alert('Reseña guardada');
+                    window.location.href = '/dashboard';
+                } else {
+                    alert('Error al guardar la reseña');
+                }
+            })
+            .catch(error => console.log(error));
+        });
+    }
+
+    // --- OFERTAS ---
     if (document.getElementById('tabla-ofertas-body')) {
         cargarOfertas();
 

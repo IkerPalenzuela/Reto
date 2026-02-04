@@ -36,23 +36,7 @@ class FavoriteController extends Controller
     
     public function edit(string $id) {}
     
-    public function update(Request $request, string $id) 
-    {
-        $request->validate([
-            'orden' => 'required|array',
-            'orden.*' => 'exists:favorites,id'
-        ]);
-
-        $userId = Auth::id();
-
-        foreach ($request->orden as $posicion => $favoritoId) {
-            Favorite::where('id', $favoritoId)
-                ->where('user_id', $userId)
-                ->update(['position' => $posicion]);
-        }
-
-        return response()->json(['mensaje' => 'Orden actualizado correctamente'], 200);
-    }
+    public function update(Request $request, string $id) {}
     
     public function destroy(string $id) {}
 }

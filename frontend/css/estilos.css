@@ -441,41 +441,91 @@ main {
     margin-top: 20px;
 }
 
-/* --- RESPONSIVE (Móvil) --- */
-@media (max-width: 600px) {
-    .barra-superior {
+/* --- RESPONSIVE MOBILE FIRST (Hasta 768px) --- */
+@media (max-width: 768px) {
+
+    main {
         padding: 10px;
+    }
+
+    .contenedor-perfil {
+        padding: 15px;
+        width: 100%;
+    }
+
+    /* --- CABECERA --- */
+    .barra-superior {
+        display: flex;
+        flex-wrap: wrap; /* Permite acomodar elementos */
+        align-items: center;
+        height: auto;    /* La altura crece según el contenido */
+        gap: 10px;
     }
 
     .barra-superior h1 {
         font-size: 18px;
-        margin-left: 10px;
-        text-align: left;
+        white-space: normal; /* IMPORTANTE: El texto salta de línea si es largo */
+        flex: 1;             /* Ocupa el espacio disponible */
+        line-height: 1.2;
     }
 
-    .botones-auth a {
-        padding: 6px 10px;
-        font-size: 12px;
-        margin-left: 5px;
+    /* Nos aseguramos de que el usuario se vea */
+    .usuario-info {
+        display: flex; 
+        align-items: center;
+        gap: 5px;
+        font-size: 14px;
     }
 
-    .tarjeta-review {
-        width: 100%;
-    }
-    
-    .contenedor-perfil {
-        padding: 15px;
+    /* --- TABS / BOTONES FILTRO --- */
+    /* Si el div de tus tabs tiene otra clase, cámbiala aquí */
+    .tabs-filtro, .contenedor-filtros {
+        display: flex;
+        flex-wrap: wrap !important; /* Los botones bajan a la siguiente fila si no caben */
+        gap: 5px;
     }
 
-    /* En móvil el flex se pone en columna para que tabla y favoritos
-       se apilen uno encima del otro en vez de estar lado a lado */
+    .btn-tab {
+        flex-grow: 1; /* Para que rellenen huecos */
+        text-align: center;
+    }
+
+    /* --- ARREGLO DE COLUMNAS --- */
+    /* Fuerza columna en los contenedores flex que tengan style inline */
     .contenedor-perfil > div[style*="display: flex"] {
-        flex-direction: column !important;
+        flex-direction: column !important; 
+        gap: 15px !important;
     }
 
-    /* La caja de favoritos en móvil no tiene ancho fijo ni sticky */
-    .contenedor-perfil > div[style*="display: flex"] > div:last-child {
+    .contenedor-perfil > div > div {
         width: 100% !important;
         position: static !important;
+    }
+
+    /* --- TABLAS --- */
+    table {
+        display: block;
+        width: 100%;
+        overflow-x: auto; /* Scroll solo en la tabla si se sale */
+    }
+
+    th, td {
+        padding: 8px 5px;
+        font-size: 13px;
+    }
+
+    /* --- INPUTS Y TARJETAS --- */
+    .grupo-input input, 
+    .grupo-input select, 
+    textarea,
+    #buscador-ofertas,
+    #btn-buscar,
+    .tarjeta-favorito, 
+    .tarjeta-review {
+        width: 100% !important;
+    }
+
+    #btn-buscar {
+        margin-top: 10px;
     }
 }

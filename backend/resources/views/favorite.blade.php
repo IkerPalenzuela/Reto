@@ -33,10 +33,6 @@
     </nav>
 
     <main>
-        <section class="intro-texto">
-            <p>Arrastra los juegos para reordenar tus favoritos. Haz clic en "Guardar Orden" para aplicar los cambios.</p>
-        </section>
-
         <section class="contenedor-perfil">
             <h2 style="margin-bottom: 20px;">Mis Juegos Favoritos</h2>
 
@@ -44,21 +40,18 @@
                 <div id="lista-favoritos" style="display: flex; flex-wrap: wrap; gap: 20px; margin-bottom: 20px;">
                     @foreach($games as $game)
                         <div class="tarjeta-favorito" 
-                            draggable="true" 
-                            data-fav-id="{{ $game->pivot->id }}"
-                            style="width: 200px; border: 2px solid #ddd; border-radius: 8px; padding: 10px; background: white; cursor: grab;">
+                            style="width: 200px; border: 2px solid #ddd; border-radius: 8px; padding: 10px; background: white;">
                             
                             <img src="{{ $game->img }}" 
                                 alt="{{ $game->name }}" 
                                 style="width: 100%; height: 250px; object-fit: cover; border-radius: 5px; margin-bottom: 10px;">
                             
                             <h4 style="margin: 0; text-align: center; color: #333;">{{ $game->name }}</h4>
-                        </div>
+                            
+                            </div>
                     @endforeach
                 </div>
-
-                <button id="btn-guardar-orden" class="btn-guardar">Guardar Orden</button>
-            @else
+                @else
                 <p style="text-align: center; color: #666; padding: 40px;">
                     No tienes juegos favoritos aún. 
                     <a href="{{ url('/games') }}" style="color: #0f3d2e; font-weight: bold;">Ve al catálogo</a> 
