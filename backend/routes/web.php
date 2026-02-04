@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\GameController;
 use App\Http\Controllers\FavoriteController;
+use App\Http\Controllers\CompanyController;
 use App\Models\Game;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -18,6 +19,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Vistas
     Route::view('/dashboard', 'dashboard')->name('dashboard');
     
+    // Listado de Empresas
+    Route::get('/companies', [CompanyController::class, 'index'])->name('companies.index');
     // Controlador de Juegos
     Route::get('/games', [GameController::class, 'index'])->name('games');
     

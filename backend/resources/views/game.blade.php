@@ -25,6 +25,7 @@
     <nav id="menu-principal" class="menu-oculto">
         <ul>
             <li><a href="{{ url('/dashboard') }}">Inicio</a></li>
+            <li><a href="{{ url('/companies') }}">Empresas</a></li>
             <li><a href="{{ url('/games') }}">Videojuegos</a></li>
             <li><a href="{{ url('/profile') }}">Editar Perfil</a></li>
             <li><a href="{{ url('/reviews') }}">Reseñas</a></li>

@@ -4,16 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Models\Company;
 use Illuminate\Http\Request;
-use Illuminate\Http\JsonResponse;
+use Illuminate\View\View;
 
 class CompanyController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(): JsonResponse
+    public function index(): View
     {
-        return response()->json(Company::all());
+        $companies = Company::all();
+        return view('companies', compact('companies'));
     }
 
     /**
