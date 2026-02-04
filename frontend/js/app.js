@@ -178,11 +178,16 @@ function pintarReseñas(datos) {
     }
 }
 
-function cargarReseñas() {
-    fetch('/api/reviews')
-        .then(respuesta => respuesta.json())
-        .then(datos => pintarReseñas(datos))
-        .catch(error => console.log("Error cargando:", error));
+async function cargarReseñas() {
+    try {
+        const respuesta = await fetch('/api/reviews');
+        if (!respuesta.ok) throw new Error('Error en la red');
+        
+        const datos = await respuesta.json();
+        pintarReseñas(datos);
+    } catch (error) {
+        console.log("Error cargando:", error);
+    }
 }
 
 // 6. API Externa - OFERTAS
