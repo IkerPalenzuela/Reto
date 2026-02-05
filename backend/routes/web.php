@@ -33,6 +33,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/reviews', [ReviewController::class, 'create'])->name('reviews.create');
     Route::post('/reviews', [ReviewController::class, 'store'])->name('reviews.store');
     
+    // REVEIEW LISTADO (API externa)
+    Route::get('/api/reviews', [ReviewController::class, 'index'])->name('reviews.api');
+    
     // OFERTAS (API externa)
     Route::get('/offers', function () {
         return view('offer');
