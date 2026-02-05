@@ -8,19 +8,21 @@ use Illuminate\Http\Request;
 
 class ReviewController extends Controller
 {
+    // API: Devuelve las reseñas en JSON (para leer desde JS)
     public function index()
     {
-        // Solo datos, nada de vistas
         $reviews = Review::with(['user', 'game'])->latest()->get();
         return response()->json($reviews);
     }
 
+    // WEB: Muestra la vista del formulario
     public function create()
     {
         $game = Game::all();
         return view('review', compact('game'));
     }
 
+    // WEB: Procesa el formulario y redirige
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -38,6 +40,7 @@ class ReviewController extends Controller
         $review->evaluation = $validated['evaluation'];
         $review->save();
 
-        return response()->json(['message' => 'Created'], 201);
+        // Redirige a la lista de juegos tras guardar
+        return redirect()->route('games')->with('success', 'Reseña creada correctamente');
     }
 }
