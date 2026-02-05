@@ -153,7 +153,7 @@ function guardarFavoritos() {
     });
 }
 
-// 5. CARGA DE RESEÑAS
+// 5. CARGA DE RESEÑAS (Esto cumple el requisito PD5 de leer API)
 function pintarReseñas(datos) {
     let contenedor = document.getElementById('contenedor-reseñas');
     if (contenedor) {
@@ -247,7 +247,7 @@ function cargarOfertas() {
 // 7. GESTIÓN DE EVENTOS DOM
 document.addEventListener('DOMContentLoaded', function() {
 
-    // --- DRAG & DROP (Vista Videojuegos) ---
+    // --- DRAG & DROP ---
     let filas = document.querySelectorAll('.fila-juego');
     filas.forEach(function(fila) {
         fila.addEventListener('dragstart', arrastrar);
@@ -268,39 +268,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (document.getElementById('contenedor-reseñas')) {
         cargarReseñas();
     }
-    let formulario = document.getElementById('form-review');
-
-    if (formulario) {
-        formulario.addEventListener('submit', function(e) {
-            e.preventDefault();
-            let token = document.querySelector('input[name="_token"]').value;
-
-            let datos = {
-                game_id: document.getElementById('game_id').value,
-                title: document.getElementById('title').value,
-                evaluation: document.getElementById('evaluation').value,
-                contenido: document.getElementById('contenido').value
-            };
-
-            fetch('/reviews', { 
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': token
-                },
-                body: JSON.stringify(datos)
-            })
-            .then(respuesta => {
-                if (respuesta.ok) {
-                    alert('Reseña guardada');
-                    window.location.href = '/dashboard';
-                } else {
-                    alert('Error al guardar la reseña');
-                }
-            })
-            .catch(error => console.log(error));
-        });
-    }
+    // NOTA: Eliminado el listener del formulario para permitir envío nativo HTML
 
     // --- OFERTAS ---
     if (document.getElementById('tabla-ofertas-body')) {

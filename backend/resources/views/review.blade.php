@@ -18,6 +18,7 @@
             </form>
         </div>
     </header>
+
     <nav id="menu-principal" class="menu-oculto">
         <ul>
             <li><a href="{{ url('/dashboard') }}">Inicio</a></li>
@@ -33,8 +34,22 @@
     <main>
         <section class="contenedor-perfil">
             <h2>Publicar Nueva Reseña</h2>
-            <form id="form-review" style="display: flex; flex-direction: column; gap: 15px;">
+
+            {{-- BLOQUE MENSAJES: Muestra errores de validación si los hay --}}
+            @if ($errors->any())
+                <div style="background-color: #f8d7da; color: #721c24; padding: 10px; margin-bottom: 15px; border-radius: 5px;">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
+            {{-- FORMULARIO: Ahora apunta a la ruta 'reviews.store' y usa POST nativo --}}
+            <form id="form-review" action="{{ route('reviews.store') }}" method="POST" style="display: flex; flex-direction: column; gap: 15px;">
                 @csrf
+                
                 <label>Videojuego:</label>
                 <select id="game_id" name="game_id" required>
                     @foreach($game as $juego)
@@ -43,13 +58,13 @@
                 </select>
 
                 <label>Título:</label>
-                <input type="text" id="title" name="title" required>
+                <input type="text" id="title" name="title" value="{{ old('title') }}" required>
 
                 <label>Puntuación (1-5):</label>
-                <input type="number" id="evaluation" name="evaluation" min="1" max="5" value="5" required>
+                <input type="number" id="evaluation" name="evaluation" min="1" max="5" value="{{ old('evaluation', 5) }}" required>
 
                 <label>Tu opinión:</label>
-                <textarea id="contenido" name="contenido" rows="5" required></textarea>
+                <textarea id="contenido" name="contenido" rows="5" required>{{ old('contenido') }}</textarea>
 
                 <button type="submit" class="btn-tab activa">Enviar Reseña</button>
             </form>

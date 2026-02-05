@@ -13,8 +13,6 @@ class FavoriteController extends Controller
         return view('favorite', ['games' => $game]);
     }
     
-    public function create() {}
-    
     public function store(Request $request){
         $request->validate([
             'juegos' => 'required|array',
@@ -31,12 +29,4 @@ class FavoriteController extends Controller
         }
         return response()->json(['mensaje' => 'Favoritos guardados correctamente'], 200);
     }
-    
-    public function show(string $id) {}
-    
-    public function edit(string $id) {}
-    
-    public function update(Request $request, string $id) {}
-    
-    public function destroy(string $id) {}
 }

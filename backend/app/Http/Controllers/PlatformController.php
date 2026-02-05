@@ -4,63 +4,25 @@ namespace App\Http\Controllers;
 
 use App\Models\Platform;
 use Illuminate\Http\Request;
-use Illuminate\Http\JsonResponse;
+use Illuminate\View\View;
 
 class PlatformController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(): JsonResponse
+    public function index(): View
     {
-        return response()->json(Platform::all());
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
+        $platforms = Platform::all();
+        return view('platforms.index', compact('platforms'));
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Platform $platform): JsonResponse
+    public function show(Platform $platform): View
     {
-        return response()->json($platform->load('games.company'));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Platform $platform)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Platform $platform)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Platform $platform)
-    {
-        //
+        $platform->load('games.company');
+        return view('platforms.show', compact('platform'));
     }
 }

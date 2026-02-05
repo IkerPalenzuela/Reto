@@ -21,7 +21,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     
     // Listado de Empresas
     Route::get('/companies', [CompanyController::class, 'index'])->name('companies.index');
-    // Controlador de Juegos
+
+    // Listado de Juegos
     Route::get('/games', [GameController::class, 'index'])->name('games');
     
     // Gestión de Perfil

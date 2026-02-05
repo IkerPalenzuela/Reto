@@ -19,11 +19,4 @@ class GameController extends Controller
         $game = $query->get();
         return view('game', compact('game'));
     }
-
-    public function show(Game $game){}
-    public function create() {}
-    public function store(Request $request) {}
-    public function edit(Game $game) {}
-    public function update(Request $request, Game $game) {}
-    public function destroy(Game $game) {}
 }

@@ -11,10 +11,6 @@ use Illuminate\Http\RedirectResponse;
 
 class ProfileController extends Controller
 {
-    public function index() {}
-    public function create() {}
-    public function store(Request $request) {}
-
     public function show(Profile $profile): JsonResponse
     {
         return response()->json(Auth::user()->load('profile'));
@@ -48,6 +44,4 @@ class ProfileController extends Controller
 
         return back()->with('success', 'Perfil actualizado correctamente');
     }
-
-    public function destroy(Profile $profile) {}
 }
