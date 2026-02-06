@@ -11,7 +11,7 @@
         <div class="icono-menu" id="btn-menu" onclick="menu()" style="display: block;">☰</div>
         <h1>Publicar Reseña</h1>
         <div class="usuario-info" id="caja-usuario-info" style="display: flex;">
-            <span id="nombre-usuario" class="nombre-usuario">Hola, {{ Auth::user()->name }}</span>
+            <span id="nombre-usuario" class="nombre-usuario">Hola, {{ $user->name }}</span>
             <form method="POST" action="/logout">
                 @csrf
                 <button type="submit" id="btn-logout" class="btn-logout">Salir</button>

@@ -14,7 +14,7 @@
         <h1>Catálogo de Videojuegos</h1>
 
         <div class="usuario-info" id="caja-usuario-info" style="display: flex;">
-            <span id="nombre-usuario" class="nombre-usuario">Hola, {{ Auth::user()->name }}</span>
+            <span id="nombre-usuario" class="nombre-usuario">Hola, {{ $user->name }}</span>
             <form method="POST" action="/logout">
                 @csrf
                 <button type="submit" id="btn-logout" class="btn-logout">Salir</button>

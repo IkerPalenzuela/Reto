@@ -14,7 +14,7 @@
 
         <div class="usuario-info" id="caja-usuario-info" style="display: flex;">
             <span id="nombre-usuario" class="nombre-usuario">
-                Hola, {{ Auth::user()->name }}
+                Hola, {{ $user->name }}
             </span>
             
             <form method="POST" action="/logout">

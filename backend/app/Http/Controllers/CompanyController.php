@@ -14,7 +14,10 @@ class CompanyController extends Controller
     public function index(): View
     {
         $companies = Company::all();
-        return view('companies', compact('companies'));
+        return view('companies',[
+            'companies' => $companies,
+            'user' => auth()->user()
+        ]);
     }
 
     /**

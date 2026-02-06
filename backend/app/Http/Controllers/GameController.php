@@ -17,6 +17,10 @@ class GameController extends Controller
         }
 
         $game = $query->get();
-        return view('game', compact('game'));
+        
+        return view('game', [
+            'game' => $game,
+            'user' => $request->user() // Enviamos el usuario
+        ]);
     }
 }

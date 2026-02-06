@@ -13,15 +13,10 @@
         <h1>Editar Perfil</h1>
 
         <div class="usuario-info" id="caja-usuario-info" style="display: flex;">
-            <span id="nombre-usuario" class="nombre-usuario">
-                Hola, {{ Auth::user()->name }}
-            </span>
-            
+            <span id="nombre-usuario" class="nombre-usuario">Hola, {{ $user->name }}</span>
             <form method="POST" action="/logout">
                 @csrf
-                <button type="submit" id="btn-logout" class="btn-logout">
-                    Salir
-                </button>
+                <button type="submit" id="btn-logout" class="btn-logout">Salir</button>
             </form>
         </div>
     </header>
@@ -52,17 +47,17 @@
 
                 <div class="grupo-input">
                     <label for="name">Nombre</label>
-                    <input type="text" id="name" name="name" value="{{ Auth::user()->name }}" required>
+                    <input type="text" id="name" name="name" value="{{ $user->name }}" required>
                 </div>
 
                 <div class="grupo-input">
                     <label for="surname">Apellido</label>
-                    <input type="text" id="surname" name="surname" value="{{ Auth::user()->profile?->surname }}" required>
+                    <input type="text" id="surname" name="surname" value="{{ $user->profile?->surname }}" required>
                 </div>
 
                 <div class="grupo-input">
                     <label for="phone">Teléfono</label>
-                    <input type="tel" id="phone" name="phone" value="{{ Auth::user()->phone }}">
+                    <input type="tel" id="phone" name="phone" value="{{ $user->phone }}">
                 </div>
 
                 <button type="submit" class="btn-guardar">Guardar Cambios</button>
@@ -78,7 +73,7 @@
     </footer>
 
     <script>
-        window.usuarioActual = "{{ Auth::user()->name }}";
+        window.usuarioActual = "{{ $user->name }}";
     </script>
     <script src="{{ asset('js/app.js') }}"></script>
 </body>

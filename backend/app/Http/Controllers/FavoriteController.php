@@ -3,14 +3,16 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Game;
-use App\Models\Favorite;
 
 class FavoriteController extends Controller
 {
     public function index()
     {
-        $game = Auth::user()->favoriteGames()->orderByPivot('position')->get();
-        return view('favorite', ['games' => $game]);
+        $games = Auth::user()->favoriteGames()->get(); 
+        return view('favorite', [
+            'games' => $games,
+            'user' => $user
+        ]);
     }
     
     public function store(Request $request){
@@ -18,15 +20,14 @@ class FavoriteController extends Controller
             'juegos' => 'required|array',
             'juegos.*' => 'exists:games,id'
         ]);
-        $userId = Auth::id();
-        Favorite::where('user_id', $userId)->delete();
-        foreach ($request->juegos as $posicion => $gameId) {
-            Favorite::create([
-                'user_id' => $userId,
-                'game_id' => $gameId,
-                'position' => $posicion
-            ]);
+
+        $user = Auth::user();
+        
+        $datosSync = [];
+        foreach ($request->juegos as $index => $idJuego) {
+            $datosSync[$idJuego] = ['position' => $index];
         }
+        $user->favoriteGames()->sync($datosSync);
         return response()->json(['mensaje' => 'Favoritos guardados correctamente'], 200);
     }
 }

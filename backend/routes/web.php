@@ -17,7 +17,10 @@ Route::get('/', function () {
 // 2. ZONA PRIVADA (Middleware Auth)
 Route::middleware(['auth', 'verified'])->group(function () {
     // Vistas
-    Route::view('/dashboard', 'dashboard')->name('dashboard');
+    // Dashboard
+    Route::get('/dashboard', function () {
+        return view('dashboard', ['user' => auth()->user()]);
+    })->name('dashboard');
     
     // Listado de Empresas
     Route::get('/companies', [CompanyController::class, 'index'])->name('companies.index');
@@ -33,12 +36,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/reviews', [ReviewController::class, 'create'])->name('reviews.create');
     Route::post('/reviews', [ReviewController::class, 'store'])->name('reviews.store');
     
-    // REVEIEW LISTADO (API externa)
+    // REVEIEW LISTADO (API interna)
     Route::get('/api/reviews', [ReviewController::class, 'index'])->name('reviews.api');
     
     // OFERTAS (API externa)
     Route::get('/offers', function () {
-        return view('offer');
+        return view('offer', ['user' => auth()->user()]);
     })->name('offers');
 
     // Favoritos

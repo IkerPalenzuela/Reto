@@ -19,7 +19,10 @@ class ReviewController extends Controller
     public function create()
     {
         $game = Game::all();
-        return view('review', compact('game'));
+        return view('review', [
+            'games' => $game,
+            'user' => auth()->user()
+        ]);
     }
 
     // WEB: Procesa el formulario y redirige
