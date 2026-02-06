@@ -35,10 +35,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // REVIEWS (Formulario y Guardado)
     Route::get('/reviews', [ReviewController::class, 'create'])->name('reviews.create');
     Route::post('/reviews', [ReviewController::class, 'store'])->name('reviews.store');
-    
-    // REVEIEW LISTADO (API interna)
-    Route::get('/api/reviews', [ReviewController::class, 'index'])->name('reviews.api');
-    
+        
     // OFERTAS (API externa)
     Route::get('/offers', function () {
         return view('offer', ['user' => auth()->user()]);
@@ -56,5 +53,12 @@ Route::post('/logout', function () {
     request()->session()->regenerateToken();
     return redirect('/index.html');
 })->name('logout');
+
+// 4. Rutas solo para admin
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::get('/admin/dashboard', function () {
+        return view('admin.dashboard');
+    })->name('admin.dashboard');
+});
 
 require __DIR__.'/auth.php';
