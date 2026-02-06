@@ -22,6 +22,7 @@ class User extends Authenticatable
         'email',
         'phone',
         'password',
+        'is_admin',
     ];
 
     /**
@@ -62,5 +63,10 @@ class User extends Authenticatable
         return $this->belongsToMany(Game::class, 'favorites')
                     ->withPivot('id', 'position')
                     ->withTimestamps();
+    }
+
+    // Metodo para saber si es admin
+    public function isAdmin() {
+        return $this->is_admin;
     }
 }
