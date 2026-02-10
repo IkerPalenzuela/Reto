@@ -33,11 +33,10 @@ function filtrarPlataforma(plataforma, botonActivo) {
     for (let i = 0; i < botones.length; i++) {
         botones[i].classList.remove('activa');
     }
-    
-    botonActivo.classList.add('activa');
 
+    botonActivo.classList.add('activa');
     let filas = document.querySelectorAll('#tabla-videojuegos tr');
-    
+
     for (let j = 0; j < filas.length; j++) {
         if (plataforma == 'todas') {
             filas[j].style.display = '';

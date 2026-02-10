@@ -443,7 +443,6 @@ main {
 
 /* --- RESPONSIVE MOBILE FIRST (Hasta 768px) --- */
 @media (max-width: 768px) {
-
     main {
         padding: 10px;
     }
@@ -478,10 +477,9 @@ main {
     }
 
     /* --- TABS / BOTONES FILTRO --- */
-    /* Si el div de tus tabs tiene otra clase, cámbiala aquí */
     .tabs-filtro, .contenedor-filtros {
         display: flex;
-        flex-wrap: wrap !important; /* Los botones bajan a la siguiente fila si no caben */
+        flex-wrap: wrap; /* Los botones bajan a la siguiente fila si no caben */
         gap: 5px;
     }
 
@@ -528,4 +526,16 @@ main {
     #btn-buscar {
         margin-top: 10px;
     }
+}
+
+/* --- NUEVO: MEJORAS DE ACCESIBILIDAD (Requisito DIW) --- */
+/* Esto añade un borde azul al navegar con el teclado (Tabulador) */
+*:focus-visible {
+    outline: 3px solid var(--color-secundario);
+    outline-offset: 2px;
+}
+
+/* Mejora el contraste del texto de autor que antes era muy claro (#666) */
+.autor {
+    color: #444444; 
 }

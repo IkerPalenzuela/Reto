@@ -14,7 +14,9 @@ Route::get('/', function () {
     return redirect('/index.html');
 });
 
-// 2. ZONA PRIVADA (Middleware Auth)
+// 2. ACCESIBILIDAD
+Route::view('/accesibilidad', 'accesibilidad');
+// 3. ZONA PRIVADA (Middleware Auth)
 Route::middleware(['auth', 'verified'])->group(function () {
     // Vistas
     // Dashboard
@@ -46,7 +48,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/favorites', [FavoriteController::class, 'store'])->name('favorites.store');
 });
 
-// 3. LOGOUT
+// 4. LOGOUT
 Route::post('/logout', function () {
     Auth::guard('web')->logout();
     request()->session()->invalidate();

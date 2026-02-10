@@ -36,5 +36,3 @@ RUN a2enmod rewrite
 
 # 6. Directorio de trabajo
 WORKDIR /var/www/html
-
-# NOTA: No instalamos Node.js aquí porque ya tienes el servicio 'node' en docker-compose.

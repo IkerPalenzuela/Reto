@@ -69,7 +69,7 @@
     </main>
 
     <footer class="barra-inferior">
-        <p>&copy; 2026 GameReviews</p>
+        <p>&copy; 2026 GameReviews | <a href="/accesibilidad" style="color:white; text-decoration: underline;">Accesibilidad</a></p>
     </footer>
 
     <script>
