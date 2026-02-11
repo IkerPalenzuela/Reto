@@ -8,6 +8,7 @@ class FavoriteController extends Controller
 {
     public function index()
     {
+        $user = Auth::user();
         $games = Auth::user()->favoriteGames()->get(); 
         return view('favorite', [
             'games' => $games,

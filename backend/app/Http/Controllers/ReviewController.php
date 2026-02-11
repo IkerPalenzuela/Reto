@@ -20,7 +20,7 @@ class ReviewController extends Controller
     {
         $game = Game::all();
         return view('review', [
-            'games' => $game,
+            'game' => $game,
             'user' => auth()->user()
         ]);
     }
