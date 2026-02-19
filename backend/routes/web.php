@@ -6,6 +6,7 @@ use App\Http\Controllers\GameController;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\CompanyController;
 use App\Models\Game;
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -61,10 +62,14 @@ Route::post('/logout', function () {
 })->name('logout');
 
 // 5. RUTAS SOLO PARA ADMIN
-// Nota: Asegúrate de que en bootstrap/app.php el alias 'admin' apunte a CheckAdmin
 Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin/dashboard', function () {
-        return view('admin.dashboard');
+        // Datos reales de la BD para la vista
+        $totalUsers = User::count();
+        $totalGames = Game::count();
+        $latestUsers = User::latest()->take(5)->get();
+
+        return view('admin.dashboard', compact('totalUsers', 'totalGames', 'latestUsers'));
     })->name('admin.dashboard');
 });
 
