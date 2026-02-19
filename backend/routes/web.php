@@ -16,11 +16,15 @@ Route::get('/', function () {
 
 // 2. ACCESIBILIDAD
 Route::view('/accesibilidad', 'accesibilidad');
+
 // 3. ZONA PRIVADA (Middleware Auth)
 Route::middleware(['auth', 'verified'])->group(function () {
-    // Vistas
-    // Dashboard
+    
+    // DASHBOARD INTELIGENTE: Redirige según el rol
     Route::get('/dashboard', function () {
+        if (auth()->user()->is_admin) {
+            return redirect()->route('admin.dashboard');
+        }
         return view('dashboard', ['user' => auth()->user()]);
     })->name('dashboard');
     
@@ -56,7 +60,8 @@ Route::post('/logout', function () {
     return redirect('/index.html');
 })->name('logout');
 
-// 4. Rutas solo para admin
+// 5. RUTAS SOLO PARA ADMIN
+// Nota: Asegúrate de que en bootstrap/app.php el alias 'admin' apunte a CheckAdmin
 Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin/dashboard', function () {
         return view('admin.dashboard');
