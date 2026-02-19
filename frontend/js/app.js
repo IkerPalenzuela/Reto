@@ -152,7 +152,7 @@ function guardarFavoritos() {
     });
 }
 
-// 5. CARGA DE RESEÑAS (Esto cumple el requisito PD5 de leer API)
+// 5. CARGA DE RESEÑAS 
 function pintarReseñas(datos) {
     let contenedor = document.getElementById('contenedor-reseñas');
     if (contenedor) {
@@ -191,18 +191,16 @@ async function cargarReseñas() {
 
 // 6. API Externa - OFERTAS
 let pagina = 0;
-
 function cargarOfertas() {
     let buscador = document.getElementById('buscador-ofertas');
     let tabla = document.getElementById('tabla-ofertas-body');
     let textoPagina = document.getElementById('texto-ofertas');
-    
+
     if (!tabla) return;
     
     let busqueda = buscador ? buscador.value : '';
     let url = 'https://www.cheapshark.com/api/1.0/deals?storeID=1&pageSize=10';
     url = url + '&pageNumber=' + pagina;
-    
     if (busqueda != "") {
         url = url + '&title=' + busqueda;
     }
